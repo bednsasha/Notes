@@ -1,4 +1,2 @@
 # Notes
 курсовая
-
-testing
