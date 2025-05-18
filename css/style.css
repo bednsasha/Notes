@@ -1,5 +1,6 @@
-.authorization-all{
+.authorization-all {
     display: flex;
+
 }
 
 .authorization-all .background-authorization {
@@ -11,30 +12,35 @@
     width: 100%;
     background: url('../img/background.svg') no-repeat center;
     background-size: cover;
+    display: flex;
+    align-items: center;
 }
 
-.authorization-all .background-authorization .wrapper .banner-all{
+.authorization-all .background-authorization .wrapper .banner-all {
     text-align: center;
-    padding-top: 25%;
     max-width: 426px;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.authorization-all .background-authorization .wrapper .banner-all .text-banner{
-    font-family: 'Manrope';
+.authorization-all .background-authorization .wrapper .banner-all .text-banner {
+    font-family: initial;
     color: #9CA3AF;
     font-style: italic;
-    padding-top: 20px;
+    padding-top: 50px;
     font-size: 22px;
     max-width: 426px;
     text-align: center;
 }
 
-.authorization-all .form{
+.authorization-all .form {
     width: 40%;
     margin-left: auto;
     margin-right: auto;
+    align-content: center;
 }
 
 .form-control {
@@ -54,4 +60,84 @@
     border: var(--bs-border-width) solid #111827;
     border-radius: 30px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.inlet {
+    font-family: 'Manrope';
+    font-size: 28px;
+    color: #6366F1;
+    font-weight: 500;
+}
+
+.form .form-text-top {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.link-underline-opacity-0 {
+    --bs-link-underline-opacity: 0;
+    font-size: 22px;
+    padding-top: 6px;
+    padding-left: 3px;
+    padding-right: 8px;
+}
+
+a {
+    color: #212529;
+    text-decoration: underline;
+}
+
+.btn-primary {
+    height: 50px;
+    --bs-btn-bg: #212529;
+    --bs-btn-hover-bg: #6366F1;
+    --bs-btn-active-bg: #212529;
+    border-radius: 30px;
+    width: 200px;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.btn2-primary {
+    height: 50px;
+    --bs-btn-bg: #212529;
+    --bs-btn-hover-bg: #6366F1;
+    --bs-btn-active-bg: #212529;
+    border-radius: 30px;
+    width: 240px;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.but {
+    text-align: center;
+}
+.but2 {
+    text-align: center;
+}
+
+.form-label {
+    margin-bottom: .5rem;
+    margin-left: 20px;
+}
+
+.form-text {
+    margin-top: .25rem;
+    font-size: .875em;
+    color: var(--bs-secondary-color);
+    text-align: center;
+}
+.btn{
+    --bs-btn-line-height: 1.5;
+    --bs-btn-color: #ffffff;
+}
+.btn:hover {
+    color: #ffffff;
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-border-color);
 }
