@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora</title>
+    <link href="Bootstrap/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="font/Manrope/stylesheet.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="Bootstrap/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="authorization-all">
+        <div class="background-authorization">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="banner-all">
+                        <img src="img/Logo_1.svg" alt="Logo_1" class="logo-authorization">
+                        <div class="text-banner">Твои идеи заслуживают идеального порядка</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="form2">
+            <a href="registration.html" class="arrow-link">
+                <img src="img/arrow-left.svg" alt="arrow-left" class="arrow-icon">
+            </a>
+
+            <div class="code-text-top">
+                <div class="text-cod">Код подтверждения</div>
+                <div class="text-cod-2">Код подтверждения отправлен на указанную почту почту</div>
+            </div>
+            <form>
+                <div class="code">
+                    <div class="container">
+                        <div class="row tight-grid justify-content-center">
+                            <div class="col-md-3">
+                                <input type="text" name="n1" class="form-control-code">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="n2" class="form-control-code">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="n3" class="form-control-code">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="n4" class="form-control-code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timer-container">
+                    <span class="timer" id="timer">01:30</span>
+                    <a class="resend-link" id="resend">Отправить код повторно</a>
+                </div>
+                <div class="button-send">
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+            </form>
+
+
+    </div>
+
+    <script>
+
+        let timeLeft = 60;
+        const timerElement = document.getElementById('timer');
+        const resendLink = document.getElementById('resend');
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+
+            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timerElement.textContent = formattedTime;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerElement.style.display = 'none';
+                resendLink.style.display = 'inline';
+            } else {
+                timeLeft--;
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        resendLink.addEventListener('click', function () {
+            alert('Код отправлен повторно!');
+
+            timeLeft = 60;
+            timerElement.style.display = 'inline';
+            resendLink.style.display = 'none';
+            timerInterval = setInterval(updateTimer, 1000);
+        });
+
+        updateTimer();
+    </script>
+
+    </section>
+    </div>
+</body>
+
+</html>
