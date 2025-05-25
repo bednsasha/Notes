@@ -1,0 +1,268 @@
+.authorization-all {
+    display: flex;
+
+}
+
+.authorization-all .background-authorization {
+    width: 50%;
+}
+
+.authorization-all .background-authorization .wrapper {
+    height: 512px;
+    width: 100%;
+    background: url('../img/background.svg') no-repeat center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+}
+
+.authorization-all .background-authorization .wrapper .banner-all {
+    text-align: center;
+    max-width: 426px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authorization-all .background-authorization .wrapper .banner-all .text-banner {
+    font-family: initial;
+    color: #9CA3AF;
+    font-style: italic;
+    padding-top: 50px;
+    font-size: 22px;
+    max-width: 426px;
+    text-align: center;
+}
+
+.authorization-all .form {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 60px;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: 1.5px solid #111827;
+    border-radius: 20px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.inlet {
+    font-family: 'Manrope';
+    font-size: 28px;
+    color: #6366F1;
+    font-weight: 500;
+}
+
+.form .form-text-top {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.link-underline-opacity-0 {
+    --bs-link-underline-opacity: 0;
+    font-size: 22px;
+    padding-top: 6px;
+    padding-left: 3px;
+    padding-right: 8px;
+}
+
+a {
+    color: #212529;
+    text-decoration: underline;
+}
+
+.btn-primary {
+    height: 50px;
+    --bs-btn-bg: #212529;
+    --bs-btn-hover-bg: #6366F1;
+    --bs-btn-active-bg: #212529;
+    border-radius: 30px;
+    width: 200px;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.btn2-primary {
+    height: 50px;
+    --bs-btn-bg: #212529;
+    --bs-btn-hover-bg: #6366F1;
+    --bs-btn-active-bg: #212529;
+    border-radius: 30px;
+    width: 240px;
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.but {
+    text-align: center;
+}
+
+.but2 {
+    text-align: center;
+}
+
+.form-label {
+    margin-bottom: .5rem;
+    margin-left: 20px;
+}
+
+.form-text {
+    margin-top: .25rem;
+    font-size: .875em;
+    color: var(--bs-secondary-color);
+    text-align: center;
+}
+
+.btn {
+    --bs-btn-line-height: 1.5;
+    --bs-btn-color: #ffffff;
+}
+
+.btn:hover {
+    color: #ffffff;
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-border-color);
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+}
+
+
+.tight-grid .col-md-3 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.tight-grid .row {
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.code {
+    text-align: center;
+}
+
+
+.authorization-all .form2 {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+}
+
+.code-text-top {
+    padding-bottom: 30px;
+}
+
+.code-text-top .text-cod {
+    font-family: 'Manrope';
+    font-size: 28px;
+    color: #6366F1;
+    font-weight: 500;
+    text-align: center;
+}
+
+.code-text-top .text-cod-2 {
+    font-family: 'Manrope';
+    font-size: 14px;
+    color: #7f838b;
+    text-align: center;
+    padding-top: 10px;
+}
+
+
+.timer-container {
+    margin-top: 15px;
+    font-family: 'Manrope';
+    text-align: center;
+    padding-top: 20px;
+}
+
+.timer {
+    color: #666;
+}
+
+.resend-link {
+    color: #6366f1;
+    cursor: pointer;
+    text-decoration: none;
+    display: none;
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+}
+
+.arrow-link {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.form2 .arrow-icon {
+  transition: filter 0.2s ease;
+  width: 30px;
+  height: px;
+}
+
+.arrow-link:hover .arrow-icon {
+  filter: brightness(1.2) drop-shadow(0 0 4px #6366f1);
+}
+
+.arrow-link:active {
+  transform: scale(0.95);
+}
+.button-send{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.form-control-code {
+    display: block;
+    width: 100%;
+    height: 60px;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: 1.5px solid #111827;
+    border-radius: 20px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
