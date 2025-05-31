@@ -14,6 +14,31 @@
 </head>
 
 <body>
+    <div class="preloader">
+        <div class="preloader-container">
+            <img src="img/загрузка.svg" alt="Loading..." class="preloader-img">
+            <div class="preloader-mask"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            setTimeout(function () {
+                const preloader = document.querySelector(".preloader");
+                const content = document.querySelector(".content");
+
+                preloader.style.opacity = "0";
+                preloader.style.transition = "opacity 1s ease";
+
+                content.style.display = "block";
+
+
+                setTimeout(() => {
+                    preloader.style.display = "none";
+                }, 500);
+            }, 2500);
+        });
+    </script>
     <div class="authorization-all">
         <div class="background-authorization">
             <div class="wrapper">
