@@ -34,9 +34,9 @@
 
 
                 setTimeout(() => {
-                    preloader.style.display = "none";
+                    preloader.remove(); // Важно: полностью удаляем элемент
                 }, 500);
-            }, 2500);
+            }, 2000);
         });
     </script>
     <div class="authorization-all">
@@ -71,10 +71,12 @@
                     <label for="exampleInputPassword1" class="form-label">Пароль</label>
                     <input type="password" class="form-control" name="Password1">
                 </div>
+                <p><a href="password_change.html">Забыли пароль?</a></p>
                 <div class="but">
                     <button type="submit" class="btn btn-primary">Войти</button>
                 </div>
             </form>
+
         </section>
     </div>
 </body>
