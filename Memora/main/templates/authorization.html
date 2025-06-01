@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -5,11 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memora</title>
-    <link href="Bootstrap/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link type="Bootstrap" href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="font/Manrope/stylesheet.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link type="css" rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <script src="Bootstrap/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
 
 </head>
 
@@ -19,7 +20,7 @@
             <div class="wrapper">
                 <div class="container">
                     <div class="banner-all">
-                        <img src="img/Logo_1.svg" alt="Logo_1" class="logo-authorization">
+                        <img src="{% static 'img/Logo_1.svg' %}" alt="Logo_1" class="logo-authorization">
                         <div class="text-banner">Твои идеи заслуживают идеального порядка</div>
                     </div>
                 </div>
@@ -31,7 +32,7 @@
                 <div class="inlet">Вход / </div>
 
                 <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                    href="registration.html">
+                    href="{% url 'registration' %}">
                     Регистрация
                 </a>
             </div>
