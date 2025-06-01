@@ -8,7 +8,7 @@
     <title>Memora</title>
     <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
-    <link rel="stylesheet" href="{% static'css/style.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <script src="{% static 'Bootstrap/bootstrap.bundle.min.js'%}" crossorigin="anonymous"></script>
 
@@ -17,7 +17,7 @@
 <body>
     <div class="preloader">
         <div class="preloader-container">
-            <img src="{%static 'img/загрузка.svg'%}" alt="Loading..." class="preloader-img">
+            <img src="{% static 'img/загрузка.svg'%}" alt="Loading..." class="preloader-img">
             <div class="preloader-mask"></div>
         </div>
     </div>
@@ -72,7 +72,7 @@
                     <label for="exampleInputPassword1" class="form-label">Пароль</label>
                     <input type="password" class="form-control" name="Password1">
                 </div>
-                <p><a href="{% url 'password_change'%}">Забыли пароль?</a></p>
+                <p><a href="{% url 'password_change' %}">Забыли пароль?</a></p>
                 <div class="but">
                     <button type="submit" class="btn btn-primary">Войти</button>
                 </div>
