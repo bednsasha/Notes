@@ -16,3 +16,5 @@ def authorization(request):
 
 def registration(request):
     return render(request, 'registration.html')
+def password_change(request):
+    return render(request, 'password_change.html')
