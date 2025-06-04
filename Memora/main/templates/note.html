@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora</title>
+    <link href="{% static 'Bootstrap/bootstrap.min.css" rel="stylesheet' %}" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <p>{{modify}}</p>
+      <p>{{create}}</p>
+      <button class="btn btn-secondary sm" type="submit">save</button>
+    </form>
+</body>
+</html> 
