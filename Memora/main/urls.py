@@ -10,5 +10,6 @@ urlpatterns = [
     path('code/', views.code, name='code'),
     path('notes/', views.add_note, name='add_note'),
     path('notes/<slug:slug>/', views.edit_note, name='edit_note'),
+
  
 ]

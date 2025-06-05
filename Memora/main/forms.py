@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Category, Note
+from .models import Note
 
 
    
@@ -14,5 +14,5 @@ class noteForm(forms.ModelForm):
           widgets={
                   'title':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Note title'}),
                   'content':forms.Textarea(attrs={'class':'form-control',  'placeholder':'Start writing...'}),
-                  'category' : forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Категория не выбрана", label="Категории")
+                  
           }

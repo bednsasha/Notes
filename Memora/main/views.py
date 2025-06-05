@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.text import slugify
 
 from .forms import noteForm
-from .models import Category, Note
+from .models import  Note
 
 def page_not_found(request,exception):
     return render(request, '404.html', status=404)
@@ -54,16 +54,7 @@ def edit_note(request,slug):
     return render(request, 'note.html', context)
 
 
-def show_category(request, cat_slug):
-    category = get_object_or_404(Category, slug=cat_slug)
-    posts = Note.published.filter(cat_id=category.pk).select_related("cat")
 
-    data = {
-        'title': f'Категория: {category.name}',
-        'posts': posts,
-        'cat_selected': category.pk,
-    }
-    return render(request, 'index.html', context=data) 
     
 
 
