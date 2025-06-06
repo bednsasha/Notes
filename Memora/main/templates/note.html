@@ -15,7 +15,8 @@
 </head>
 <body>
     <form method="POST">
-      {% csrf_token %} {{ form.as_p }}
+      {% csrf_token %} 
+      {{ form.as_p }}
       <p>{{modify}}</p>
       <p>{{create}}</p>
       <button class="btn btn-secondary sm" type="submit">save</button>
