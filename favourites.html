@@ -41,15 +41,36 @@
             <div class="row g-6">
 
                 <div class="col-md-6 col-lg-3">
-                    <div class="plus-all">
-                        <button class="plus">
-                            <img src="img/plus.svg" alt="plus">
-                        </button>
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star">
+                                        <img src="img/star-fill.svg" alt="star2">
+                                    </button>
 
-                        <div class="text-plus">Новая запись</div>
+                                    <button class="edit">
+                                        <img src="img/edit.svg" alt="edit">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
+
 
 
                 <div class="col-md-6 col-lg-3">
@@ -62,7 +83,7 @@
                                         <img src="img/del.svg" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star-fill.svg" alt="star2">
                                     </button>
 
                                     <button class="edit">
@@ -107,7 +128,7 @@
                                         <img src="img/del.svg" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star-fill.svg" alt="star2">
                                     </button>
                                     <button class="edit">
                                         <img src="img/edit.svg" alt="edit">
@@ -143,7 +164,7 @@
                                         <img src="img/del.svg" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star-fill.svg" alt="star2">
                                     </button>
                                     <button class="edit">
                                         <img src="img/edit.svg" alt="edit">
@@ -179,7 +200,7 @@
                                         <img src="img/del.svg" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star-fill.svg" alt="star2">
                                     </button>
                                     <button class="edit">
                                         <img src="img/edit.svg" alt="edit">
@@ -210,11 +231,11 @@
 
                         starButton.addEventListener('click', function () {
                             if (isActive) {
-                                starIcon.src = "img/star1.svg";
-                                starIcon.alt = "star1";
-                            } else {
                                 starIcon.src = "img/star-fill.svg";
                                 starIcon.alt = "star2";
+                            } else {
+                                starIcon.src = "img/star1.svg";
+                                starIcon.alt = "star1";
                             }
                             isActive = !isActive;
                         });

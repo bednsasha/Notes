@@ -41,15 +41,32 @@
             <div class="row g-6">
 
                 <div class="col-md-6 col-lg-3">
-                    <div class="plus-all">
-                        <button class="plus">
-                            <img src="img/plus.svg" alt="plus">
-                        </button>
-
-                        <div class="text-plus">Новая запись</div>
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="recover">
+                                        <img src="img/recover.svg" alt="recover">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
+
 
 
                 <div class="col-md-6 col-lg-3">
@@ -61,12 +78,8 @@
                                     <button class="delete" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
-                                    </button>
-
-                                    <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                    <button class="recover">
+                                        <img src="img/recover.svg" alt="recover">
                                     </button>
                                 </div>
                             </div>
@@ -106,11 +119,8 @@
                                     <button class="delete" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
-                                    </button>
-                                    <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                    <button class="recover">
+                                        <img src="img/recover.svg" alt="recover">
                                     </button>
                                 </div>
 
@@ -142,11 +152,8 @@
                                     <button class="delete" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
-                                    </button>
-                                    <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                    <button class="recover">
+                                        <img src="img/recover.svg" alt="recover">
                                     </button>
                                 </div>
 
@@ -178,11 +185,8 @@
                                     <button class="delete" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
-                                    </button>
-                                    <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                    <button class="recover">
+                                        <img src="img/recover.svg" alt="recover">
                                     </button>
                                 </div>
 
@@ -201,26 +205,6 @@
                     </div>
 
                 </div>
-
-                <script>
-                    document.querySelectorAll('.star').forEach(starButton => {
-                        // Находим иконку внутри текущей кнопки
-                        const starIcon = starButton.querySelector('img');
-                        let isActive = false;
-
-                        starButton.addEventListener('click', function () {
-                            if (isActive) {
-                                starIcon.src = "img/star1.svg";
-                                starIcon.alt = "star1";
-                            } else {
-                                starIcon.src = "img/star-fill.svg";
-                                starIcon.alt = "star2";
-                            }
-                            isActive = !isActive;
-                        });
-                    });
-                </script>
-
 
             </div>
         </div>

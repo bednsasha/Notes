@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora</title>
+    <link href="Bootstrap/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="font/Manrope/stylesheet.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="Bootstrap/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <header>
+        <div class="heder-all">
+            <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
+            <div class="container">
+                <div class="button-all">
+                    <button class="my-btn">Все заметки</button>
+                    <button class="my-btn">Избранное</button>
+                    <button class="my-btn">Корзина</button>
+                    <button class="my-btn">Папки</button>
+                </div>
+            </div>
+            <div class="account-all">
+                <a href="#" class="leave-header">Выйти</a>
+                <img src="img/akk.svg" alt="account" class="account">
+            </div>
+
+        </div>
+    </header>
+    <div class="textarea-container">
+        <textarea class="auto-resize-textarea">исходный текст</textarea>
+    </div>
+    <script>
+        document.querySelector('.auto-resize-textarea').addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+
+
+
+</body>
+
+</html>

@@ -50,6 +50,15 @@ body {
     margin: 0;/
 }
 
+.account-all{
+    display: flex;
+    align-items: center;
+}
+
+.account-all .leave-header{
+    margin-right: 25px;
+    font-size: 18px;
+}
 .authorization-all {
     display: flex;
     min-height: 100vh;
@@ -362,7 +371,7 @@ header {
     margin: 5px;
     cursor: pointer;
     border-radius: 20px;
-    width: 250px;
+    width: 200px;
     color: white
 }
 
@@ -376,10 +385,9 @@ header {
 
 .button-all {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 50px;
+    gap: 8px;
+    justify-content: center;
+
 }
 
 .offcanvas,
@@ -427,6 +435,8 @@ element.style {
 
 .card-all .text2 {
     background-color: #34D399;
+        border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .card-all .text-truncate-multiline {
@@ -447,7 +457,9 @@ element.style {
 }
 
 button.delete,
-button.edit {
+button.edit,
+button.star,
+button.recover{
     background: transparent;
     border: none;
     padding: 0;
@@ -455,7 +467,9 @@ button.edit {
 }
 
 button.delete:hover,
-button.edit:hover {
+button.edit:hover,
+button.star:hover,
+button.recover:hover {
     opacity: 0.7;
 }
 
@@ -480,4 +494,17 @@ button.plus {
 
 button.plus:hover {
     transform: scale(1.1);
+}
+
+.textarea-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.auto-resize-textarea {
+  width: 95%;
+  min-height: 700px;
+  resize: none;
 }
