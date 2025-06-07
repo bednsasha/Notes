@@ -21,7 +21,7 @@
             <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
-                    <button class="my-btn">Все заметки</button>
+                    <button class="activе-bt">Все заметки</button>
                     <button class="my-btn">Избранное</button>
                     <button class="my-btn">Корзина</button>
                     <button class="my-btn">Папки</button>
@@ -38,12 +38,12 @@
 
     <section style="margin-top: 80px;">
         <div class="container">
-            <div class="row g-6">
+            <div class="row g-5">
 
                 <div class="col-md-6 col-lg-3">
                     <div class="plus-all">
                         <button class="plus">
-                            <img src="img/plus.svg" alt="plus">
+                            <img src="img/plus.svg" title="Создать" alt="plus">
                         </button>
 
                         <div class="text-plus">Новая запись</div>
@@ -54,19 +54,20 @@
 
                 <div class="col-md-6 col-lg-3">
                     <div class="card-all">
+                        
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-header">
                                 <div class="card-title"> Заголовок </div>
                                 <div class="button-note">
-                                    <button class="delete" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" title="Удалить" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star1.svg" title="Сохранить в «Избранное»" alt="star1">
                                     </button>
 
                                     <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
                                     </button>
                                 </div>
                             </div>
@@ -103,14 +104,14 @@
                             <div class="card-header">
                                 <div class="card-title"> Заголовок </div>
                                 <div class="button-note">
-                                    <button class="delete" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" title="Удалить" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star1.svg" title="Сохранить в «Избранное»" alt="star1">
                                     </button>
                                     <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
                                     </button>
                                 </div>
 
@@ -139,14 +140,14 @@
                             <div class="card-header">
                                 <div class="card-title"> Заголовок </div>
                                 <div class="button-note">
-                                    <button class="delete" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" title="Удалить" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star1.svg" title="Сохранить в «Избранное»" alt="star1">
                                     </button>
                                     <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
                                     </button>
                                 </div>
 
@@ -175,14 +176,14 @@
                             <div class="card-header">
                                 <div class="card-title"> Заголовок </div>
                                 <div class="button-note">
-                                    <button class="delete" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" title="Сохранить в «Избранное»" alt="del">
                                     </button>
                                     <button class="star">
-                                        <img src="img/star1.svg" alt="star1">
+                                        <img src="img/star1.svg" title="Сохранить в «Избранное»" alt="star1">
                                     </button>
                                     <button class="edit">
-                                        <img src="img/edit.svg" alt="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
                                     </button>
                                 </div>
 
@@ -204,7 +205,6 @@
 
                 <script>
                     document.querySelectorAll('.star').forEach(starButton => {
-                        // Находим иконку внутри текущей кнопки
                         const starIcon = starButton.querySelector('img');
                         let isActive = false;
 

@@ -13,7 +13,7 @@
 
 </head>
 
-<body>
+<body style="background-color: #111827;">
     <header>
         <div class="heder-all">
             <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
@@ -32,13 +32,26 @@
 
         </div>
     </header>
-    <div class="textarea-container">
-        <textarea class="auto-resize-textarea">исходный текст</textarea>
-    </div>
+
+    <form method="post" style="
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    
+    ">
+        <textarea id=" note-edit" name="note-edit"></textarea>
+        <button type="submit" class="send-note">
+        Отправить</button>
+    </form>
+
+    <script src="ckeditor/ckeditor.js"></script>
     <script>
-        document.querySelector('.auto-resize-textarea').addEventListener('input', function () {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
+        CKEDITOR.replace('note-edit', {
+            height: '620px',
+            width: '95%',
+            removePlugins: 'resize'
         });
     </script>
 

@@ -50,15 +50,16 @@ body {
     margin: 0;/
 }
 
-.account-all{
+.account-all {
     display: flex;
     align-items: center;
 }
 
-.account-all .leave-header{
+.account-all .leave-header {
     margin-right: 25px;
     font-size: 18px;
 }
+
 .authorization-all {
     display: flex;
     min-height: 100vh;
@@ -375,6 +376,17 @@ header {
     color: white
 }
 
+.activе-bt {
+    padding: 8px 16px;
+    background: #6366F1;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 200px;
+    color: white
+}
+
 .my-btn:hover {
     background: #6366F1;
 }
@@ -435,7 +447,7 @@ element.style {
 
 .card-all .text2 {
     background-color: #34D399;
-        border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
@@ -459,7 +471,7 @@ element.style {
 button.delete,
 button.edit,
 button.star,
-button.recover{
+button.recover {
     background: transparent;
     border: none;
     padding: 0;
@@ -496,15 +508,23 @@ button.plus:hover {
     transform: scale(1.1);
 }
 
-.textarea-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 20px;
+.send-note {
+    margin-top: 20px;
+    background-color: #ffffff;
+    color: #111827;
+    height: 40px;
+    width: 150px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: 'Manrope';
+    font-weight: 600;
 }
 
-.auto-resize-textarea {
-  width: 95%;
-  min-height: 700px;
-  resize: none;
+.send-note:hover {
+    background: #6366F1;
+}
+
+.send-note:active {
+    background: #ccc;
 }
