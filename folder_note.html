@@ -16,14 +16,15 @@
 
 
 <body class="background">
+
     <header>
         <div class="heder-all">
             <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
-                    <button class="my-btn">Все заметки</button>
+                    <button class="activе-bt">Все заметки</button>
                     <button class="my-btn">Избранное</button>
-                    <button class="activе-bt">Корзина</button>
+                    <button class="my-btn">Корзина</button>
                     <button class="my-btn">Папки</button>
                 </div>
             </div>
@@ -36,38 +37,20 @@
     </header>
 
 
+
     <section style="margin-top: 80px;">
         <div class="container">
             <div class="row g-5">
 
+
                 <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
+                    <div class="plus-all">
+                        <button class="plus">
+                            <img src="img/plus.svg" title="Создать" alt="plus">
+                        </button>
+                        <div class="text-plus">Новая запись</div>
                     </div>
                 </div>
-
-
 
                 <div class="col-md-6 col-lg-3">
                     <div class="card-all">
@@ -78,10 +61,14 @@
                                     <button class="delete" title="Удалить" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
+                                    <button class="star" title="Сохранить в «Избранное»">
+                                        <img src="img/star1.svg"  alt="star1">
+                                    </button>
+                                    <button class="edit" title="Редактировать">
+                                        <img src="img/edit.svg"  alt="edit">
                                     </button>
                                 </div>
+
                             </div>
                             <div class="text2">
                                 <div class="text-truncate-multiline">
@@ -92,10 +79,47 @@
                                     Съешь ещё этих мягких французских булок, да выпей же чаю
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
 
+
+
+
+               <div class="col-md-6 col-lg-3">
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star" title="Сохранить в «Избранное»">
+                                        <img src="img/star1.svg"  alt="star1">
+                                    </button>
+                                    <button class="edit" title="Редактировать">
+                                        <img src="img/edit.svg"  alt="edit">
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
 
 
 
@@ -109,10 +133,14 @@
                                     <button class="delete" title="Удалить" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
+                                    <button class="star" title="Сохранить в «Избранное»">
+                                        <img src="img/star1.svg"  alt="star1">
+                                    </button>
+                                    <button class="edit" title="Редактировать">
+                                        <img src="img/edit.svg"  alt="edit">
                                     </button>
                                 </div>
+
                             </div>
                             <div class="text2">
                                 <div class="text-truncate-multiline">
@@ -123,8 +151,10 @@
                                     Съешь ещё этих мягких французских булок, да выпей же чаю
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
 
 
@@ -139,10 +169,14 @@
                                     <button class="delete" title="Удалить" onclick="confirmDelete()">
                                         <img src="img/del.svg" alt="del">
                                     </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
+                                    <button class="star" title="Сохранить в «Избранное»">
+                                        <img src="img/star1.svg"  alt="star1">
+                                    </button>
+                                    <button class="edit" title="Редактировать">
+                                        <img src="img/edit.svg"  alt="edit">
                                     </button>
                                 </div>
+
                             </div>
                             <div class="text2">
                                 <div class="text-truncate-multiline">
@@ -153,53 +187,82 @@
                                     Съешь ещё этих мягких французских булок, да выпей же чаю
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
-            </div>
 
 
 
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card-all">
-                    <div class="card border-light mb-3" style="max-width: 18rem;">
-                        <div class="card-header">
-                            <div class="card-title"> Заголовок </div>
-                            <div class="button-note">
-                                <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                    <img src="img/del.svg" alt="del">
-                                </button>
-                                <button class="recover" title="Восстановить">
-                                    <img src="img/recover.svg" alt="recover">
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text2">
-                            <div class="text-truncate-multiline">
-                                Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                французских булок,
-                                да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                Съешь ещё этих мягких французских булок, да выпей же чаю
-                                Съешь ещё этих мягких французских булок, да выпей же чаю
-                            </div>
-                        </div>
-                    </div>
+                <div id="main_menu">
+                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Избранное»</div>
+                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Корзину»</div>
+                    <div onClick="jump(this);" url="#" class="text-menu">Удалить из папки</div>
                 </div>
-            </div>
-            <script>
-                function confirmDelete() {
-                    if (confirm("Вы действительно хотите удалить эту запись?")) {
 
-                        console.log("Запись удалена");
+                <script>
 
-                    } else {
-                        console.log("Удаление отменено");
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const menu = document.getElementById("main_menu");
+                        const cards = document.querySelectorAll(".card");
+
+                        function showMenu(e) {
+                            e.preventDefault();
+                            menu.style.left = e.clientX + 'px';
+                            menu.style.top = e.clientY + 'px';
+                            menu.style.display = 'block';
+                        }
+
+                        function hideMenu() {
+                            menu.style.display = 'none';
+                        }
+
+
+                        cards.forEach(card => {
+                            card.addEventListener('contextmenu', showMenu);
+                        });
+
+                        document.addEventListener('click', hideMenu);
+
+
+                        function jump(element) {
+                            const url = element.getAttribute('url');
+                            if (url) {
+                                window.location.href = url;
+                            }
+                        }
+                    });
+
+                    function confirmDelete() {
+                        if (confirm("Вы действительно хотите удалить эту запись?")) {
+
+                            console.log("Запись удалена");
+
+                        } else {
+                            console.log("Удаление отменено");
+                        }
                     }
-                }
-            </script>
 
-        </div>
+                    document.querySelectorAll('.star').forEach(starButton => {
+                        const starIcon = starButton.querySelector('img');
+                        let isActive = false;
+
+                        starButton.addEventListener('click', function () {
+                            if (isActive) {
+                                starIcon.src = "img/star1.svg";
+                                starIcon.alt = "star1";
+                            } else {
+                                starIcon.src = "img/star-fill.svg";
+                                starIcon.alt = "star2";
+                            }
+                            isActive = !isActive;
+                        });
+                    });
+                </script>
+
+
+            </div>
         </div>
     </section>
 

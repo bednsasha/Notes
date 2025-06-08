@@ -411,19 +411,56 @@ header {
     --bs-offcanvas-width: 300px;
 }
 
+
+
+
 .card-1 {
     background: #ffffff;
     width: 100%;
     max-height: 200px;
 }
 
-element.style {
-    max-width: 18rem;
-    max-height: 100px;
+
+
+#main_menu {
+    position: fixed;
+    width: 230px;
+    background-color: #EEEEEE;
+    font-family: 'Manrope';
+    line-height: 24px;
+    font-size: 14px;
+    z-index: 99;
+    display: none;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+#main_menu div {
+    padding: 5px 10px;
+    margin: 2px 0;
+}
+
+#main_menu div:hover {
+    border-radius: 5px;
+    background-color: #6366F1;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.text-menu {
+    padding-left: 10px;
+}
+
+.card {
+    cursor: context-menu;
+    user-select: none;
+}
+
 
 .card-all {
     transition: transform .2s;
+    position: relative;
 }
 
 .card-all:hover {
@@ -527,4 +564,20 @@ button.plus:hover {
 
 .send-note:active {
     background: #ccc;
+}
+
+.folder-all {
+    text-align: center;
+    transition: transform .2s;
+}
+
+
+.folder-all .text-folder{
+    color: #ffffff;
+    font-family: 'Manrope';
+    font-size: 16px;
+    margin-top: 10px;
+}
+.folder-all:hover {
+    transform: scale(1.1);
 }
