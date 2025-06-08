@@ -79,6 +79,7 @@ body {
     background-size: cover;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .authorization-all .background-authorization .wrapper .banner-all {
