@@ -1,52 +1,63 @@
-
 .preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    pointer-events: none;
 }
 
 .preloader-container {
-  position: relative;
-  width:30%; 
+    position: relative;
+    width: 30%;
 }
 
 .preloader-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .preloader-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white; 
-  animation: reveal 2s ease-in-out forwards;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    animation: reveal 2s ease-in-out forwards;
 }
 
 @keyframes reveal {
-  0% {
-    transform: translateX(-100%); 
-  }
-  100% {
-    transform: translateX(100%); 
-  }
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 
-html, body {
-    height: 100%; 
-    margin: 0; /
+html,
+body {
+    height: 100%;
+    margin: 0;/
+}
+
+.account-all {
+    display: flex;
+    align-items: center;
+}
+
+.account-all .leave-header {
+    margin-right: 25px;
+    font-size: 18px;
 }
 
 .authorization-all {
@@ -63,7 +74,8 @@ html, body {
 .authorization-all .background-authorization .wrapper {
     height: 100%;
     width: 100%;
-    background: transparent url(../img/background.svg) no-repeat center;;
+    background: transparent url(../img/background.svg) no-repeat center;
+    ;
     background-size: cover;
     display: flex;
     align-items: center;
@@ -198,17 +210,11 @@ a {
     border-color: var(--bs-btn-hover-border-color);
 }
 
-button,
-input,
-optgroup,
-select,
-textarea {
+.entrance {
     margin: 0;
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
-    width: 80px;
-    height: 80px;
     border-radius: 15px;
 }
 
@@ -279,24 +285,25 @@ textarea {
 }
 
 .arrow-link {
-  display: inline-block;
-  transition: transform 0.2s ease;
+    display: inline-block;
+    transition: transform 0.2s ease;
 }
 
 .form2 .arrow-icon {
-  transition: filter 0.2s ease;
-  width: 30px;
-  height: px;
+    transition: filter 0.2s ease;
+    width: 30px;
+    height: px;
 }
 
 .arrow-link:hover .arrow-icon {
-  filter: brightness(1.2) drop-shadow(0 0 4px #6366f1);
+    filter: brightness(1.2) drop-shadow(0 0 4px #6366f1);
 }
 
 .arrow-link:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
 }
-.button-send{
+
+.button-send {
     margin-top: 30px;
     text-align: center;
 }
@@ -318,4 +325,206 @@ textarea {
     border: 1.5px solid #111827;
     border-radius: 20px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heder-all {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+}
+
+.heder-all .logo_header {
+    height: 50px;
+}
+
+.heder-all .account {
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+.menu {
+    margin-right: 15px;
+}
+
+.background {
+    background-color: #111827;
+}
+
+.button-all {
+    display: flex;
+
+}
+
+.my-btn {
+    padding: 8px 16px;
+    background: #1F2937;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 200px;
+    color: white
+}
+
+.activе-bt {
+    padding: 8px 16px;
+    background: #6366F1;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 200px;
+    color: white
+}
+
+.my-btn:hover {
+    background: #6366F1;
+}
+
+.my-btn:active {
+    background: #ccc;
+}
+
+.button-all {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+
+}
+
+.offcanvas,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-sm,
+.offcanvas-xl,
+.offcanvas-xxl {
+    --bs-offcanvas-width: 300px;
+}
+
+.card-1 {
+    background: #ffffff;
+    width: 100%;
+    max-height: 200px;
+}
+
+element.style {
+    max-width: 18rem;
+    max-height: 100px;
+}
+
+.card-all {
+    transition: transform .2s;
+}
+
+.card-all:hover {
+    transform: scale(1.1);
+}
+
+.card-all .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.card-all .card-header .card-title {
+    font-family: initial;
+    font-weight: 600;
+    font-size: 30px;
+    color: #111827;
+
+}
+
+.card-all .text2 {
+    background-color: #34D399;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.card-all .text-truncate-multiline {
+    font-family: 'Manrope';
+    font-size: 15px;
+    color: #1F2937;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+button.delete,
+button.edit,
+button.star,
+button.recover {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+button.delete:hover,
+button.edit:hover,
+button.star:hover,
+button.recover:hover {
+    opacity: 0.7;
+}
+
+.plus-all {
+    text-align: center;
+}
+
+.text-plus {
+    margin-top: 20px;
+    font-family: initial;
+    font-style: italic;
+    font-size: 20px;
+    color: #9CA3AF
+}
+
+button.plus {
+    transition: transform .2s;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+button.plus:hover {
+    transform: scale(1.1);
+}
+
+.send-note {
+    margin-top: 20px;
+    background-color: #ffffff;
+    color: #111827;
+    height: 40px;
+    width: 150px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: 'Manrope';
+    font-weight: 600;
+}
+
+.send-note:hover {
+    background: #6366F1;
+}
+
+.send-note:active {
+    background: #ccc;
 }

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora</title>
+    <link href="Bootstrap/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="font/Manrope/stylesheet.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="Bootstrap/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+</head>
+
+
+
+<body class="background">
+    <header>
+        <div class="heder-all">
+            <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
+            <div class="container">
+                <div class="button-all">
+                    <button class="my-btn">Все заметки</button>
+                    <button class="activе-bt">Избранное</button>
+                    <button class="my-btn">Корзина</button>
+                    <button class="my-btn">Папки</button>
+                </div>
+            </div>
+            <div class="account-all">
+                <a href="#" class="leave-header">Выйти</a>
+                <img src="img/akk.svg" alt="account" class="account">
+            </div>
+
+        </div>
+    </header>
+
+
+    <section style="margin-top: 80px;">
+        <div class="container">
+            <div class="row g-6">
+
+                
+
+
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star">
+                                        <img src="img/star-fill.svg" alt="star2">
+                                    </button>
+
+                                    <button class="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star">
+                                        <img src="img/star-fill.svg" alt="star2">
+                                    </button>
+
+                                    <button class="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <script>
+                    function confirmDelete() {
+                        if (confirm("Вы действительно хотите удалить эту запись?")) {
+
+                            console.log("Запись удалена");
+
+                        } else {
+                            console.log("Удаление отменено");
+                        }
+                    }
+                </script>
+
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star">
+                                        <img src="img/star-fill.svg" alt="star2">
+                                    </button>
+                                    <button class="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star">
+                                        <img src="img/star-fill.svg" alt="star2">
+                                    </button>
+                                    <button class="edit">
+                                        <img src="img/edit.svg" title="Редактировать" alt="edit">
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-all">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title"> Заголовок </div>
+                                <div class="button-note">
+                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
+                                        <img src="img/del.svg" alt="del">
+                                    </button>
+                                    <button class="star">
+                                        <img src="img/star-fill.svg" alt="star2">
+                                    </button>
+                                    <button class="edit">
+                                        <img src="img/edit.svg"  title="Редактировать" alt="edit">
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
+                                    французских булок,
+                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <script>
+                    document.querySelectorAll('.star').forEach(starButton => {
+                        // Находим иконку внутри текущей кнопки
+                        const starIcon = starButton.querySelector('img');
+                        let isActive = false;
+
+                        starButton.addEventListener('click', function () {
+                            if (isActive) {
+                                starIcon.src = "img/star-fill.svg";
+                                starIcon.alt = "star2";
+                            } else {
+                                starIcon.src = "img/star1.svg";
+                                starIcon.alt = "star1";
+                            }
+                            isActive = !isActive;
+                        });
+                    });
+                </script>
+
+
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
