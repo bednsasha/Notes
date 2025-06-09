@@ -18,8 +18,8 @@ class Note(models.Model):
     content = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    favourites = models.BooleanField(default=False) 
-   
+    favourites = models.BooleanField(default=False, blank=True) 
+    in_basket=models.BooleanField(default=False, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='notes', null=True, blank=True)  
     class Meta:
         verbose_name = "Заметка"

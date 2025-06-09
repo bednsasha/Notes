@@ -8,6 +8,8 @@
     <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/VE6j5r6wUew655+CL1zeR89tS/Eg4EGxQqvP2K" crossorigin="anonymous"></script>
+
 
     <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
 
@@ -18,7 +20,7 @@
 <body class="background">
     <header>
         <div class="heder-all">
-            <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
+            <img src="{% static 'img/logo_header.svg' %}" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
                     {% for m in menu %}
@@ -42,7 +44,7 @@
             </div>
             <div class="account-all">
                 <a href="#" class="leave-header">Выйти</a>
-                <img src="img/akk.svg" alt="account" class="account">
+                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
             </div>
 
         </div>
@@ -50,175 +52,54 @@
 
 
     <section style="margin-top: 80px;">
-        <div class="container">
-            <div class="row g-5">
+    <div class="container">
+        <div class="row g-5">
+            {% for note in notes %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-all" data-note-id="{{ note.id }}">
+                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <div class="card-title">{{ note.title|slice:":30"|default:"Noname" }}</div>
+                                <div class="button-note"  style="display: flex; gap: 10px;">
+                                    <form method="post" action="{% url 'list_basket' note.id %}">
+                                        {% csrf_token %}
+                                        <button class="delete" title="Поместить в «Корзину»">
+                                            <img src="{% static 'img/del.svg' %}" alt="del">
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="{% url 'list_fav' note.id %}">
+                                    {% csrf_token %}
+                                    <button class="star" title="Добавить в «Избранное»">
+                                        <img src="{% static 'img/star-fill.svg' %}" alt="star2">
+                                    </button>
+                                    </form>
+                                    <button class="edit" title="Редактировать" onclick="window.location.href='{% url 'edit_note' note.slug %}'">
+                                        <img src="{% static 'img/edit.svg' %}" alt="edit">
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="text2">
+                                <div class="text-truncate-multiline">
+                                    {{ note.content|slice:":250" }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if forloop.counter|divisibleby:4 and not forloop.last %}
+                    </div>
+                    <div class="row g-5">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
 
                 
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star">
-                                        <img src="img/star-fill.svg" alt="star2">
-                                    </button>
-
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star">
-                                        <img src="img/star-fill.svg" alt="star2">
-                                    </button>
-
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star">
-                                        <img src="img/star-fill.svg" alt="star2">
-                                    </button>
-
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star">
-                                        <img src="img/star-fill.svg" alt="star2">
-                                    </button>
-
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star">
-                                        <img src="img/star-fill.svg" alt="star2">
-                                    </button>
-
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div id="main_menu">
                     <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Избранное»</div>
                     <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Корзину»</div>
@@ -271,14 +152,18 @@
                     document.querySelectorAll('.star').forEach(starButton => {
                         const starIcon = starButton.querySelector('img');
                         let isActive = false;
-
+                        
                         starButton.addEventListener('click', function () {
                             if (isActive) {
-                                starIcon.src = "img/star1.svg";
+                                <!-- делаем неактивной -->
+                                starIcon.src = "{% static 'img/star1.svg' %}";
                                 starIcon.alt = "star1";
+                                
                             } else {
-                                starIcon.src = "img/star-fill.svg";
+                                <!-- делаем активной -->
+                                starIcon.src = "{% static 'img/star-fill.svg' %}";
                                 starIcon.alt = "star2";
+                                
                             }
                             isActive = !isActive;
                         });

@@ -19,14 +19,13 @@
 <body class="background">
     <header>
         <div class="heder-all">
-            <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
+            <img src="{% static 'img/logo_header.svg' %}" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
                     
                     {% for m in menu %}
             
                     {% if 'Корзина' in m.title  %}
-      
                     <a href="{% url m.url_name  %}">
                         <button class="activе-bt">{{m.title}} </button>
                     </a>
@@ -43,7 +42,7 @@
             </div>
             <div class="account-all">
                 <a href="#" class="leave-header">Выйти</a>
-                <img src="img/akk.svg" alt="account" class="account">
+                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
             </div>
 
         </div>
@@ -53,158 +52,52 @@
     <section style="margin-top: 80px;">
         <div class="container">
             <div class="row g-5">
-
+                {% for note in notes %}
                 <div class="col-md-6 col-lg-3">
                     <div class="card-all">
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
-                                    </button>
+                                <div class="card-title"> {{note.title}} </div>
+                                <div class="button-note" style="display: flex; gap: 10px;">
+                                    <form method="post" action="{% url 'delete_note' note.id %}">
+                                        {% csrf_token %}
+                                        <button class="delete" title="Удалить" onclick="return confirm('Вы действительно хотите удалить эту запись?');">
+                                            <img src="{% static 'img/del.svg' %}" alt="del">
+                                        </button>
+                                    </form>
+        
+                                    <form method="post" action="{% url 'list_basket' note.id %}">
+                                        {% csrf_token %}
+                                        <button class="recover" title="Восстановить">
+                                            <img src="{% static 'img/recover.svg' %}" alt="recover">
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="text2">
                                 <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                    {{note.content}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
+                {% if forloop.counter|divisibleby:4 and not forloop.last %}
                     </div>
-                </div>
+                    <div class="row g-5">
+                {% endif %}
+            {% endfor %}
 
 
 
 
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="recover" title="Восстановить">
-                                        <img src="img/recover.svg" alt="recover">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="col-md-6 col-lg-3">
-                <div class="card-all">
-                    <div class="card border-light mb-3" style="max-width: 18rem;">
-                        <div class="card-header">
-                            <div class="card-title"> Заголовок </div>
-                            <div class="button-note">
-                                <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                    <img src="img/del.svg" alt="del">
-                                </button>
-                                <button class="recover" title="Восстановить">
-                                    <img src="img/recover.svg" alt="recover">
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text2">
-                            <div class="text-truncate-multiline">
-                                Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                французских булок,
-                                да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                Съешь ещё этих мягких французских булок, да выпей же чаю
-                                Съешь ещё этих мягких французских булок, да выпей же чаю
-                            </div>
-                        </div>
-                    </div>
-                </div>
+           
             </div>
             <script>
-                function confirmDelete() {
+                function confirmDelete(n) {
                     if (confirm("Вы действительно хотите удалить эту запись?")) {
-
+                        n.delete()
                         console.log("Запись удалена");
 
                     } else {

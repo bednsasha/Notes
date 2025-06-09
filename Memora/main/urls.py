@@ -13,7 +13,11 @@ urlpatterns = [
     path('category/', views.categories, name='category'),
     path('category/<slug:slug_cat>', views.certain_categories, name='certain_category'),
     path('basket/', views.basket, name='basket'),
+    path('basket/<int:note_id>', views.list_basket, name='list_basket'),
+    path('delete_note/<int:note_id>/', views.delete_note, name='delete_note'),
     path('favourites/', views.favourites, name='favourites'),
+    path('favourites/<int:note_id>', views.list_fav, name='list_fav'),
+    path('main/', views.main, name='main'),
 
  
 ]
