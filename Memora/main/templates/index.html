@@ -17,6 +17,7 @@
     <form method="POST">
       {% csrf_token %} 
       <a href="{% url 'add_note' %}" class="btn btn2-primary">Добавить заметку</a>
+      <a href="{% url 'basket' %}" class="btn btn2-primary">Корзина</a>
       <p>Категория: {{p.cat.name}}</p>
       <ul>
         {% for note in notes %}

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -5,11 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memora</title>
-    <link href="Bootstrap/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link rel="stylesheet" href="font/Manrope/stylesheet.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <script src="Bootstrap/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
 
 </head>
 
@@ -19,10 +20,9 @@
             <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
-                    <button class="my-btn">Все заметки</button>
-                    <button class="my-btn">Избранное</button>
-                    <button class="my-btn">Корзина</button>
-                    <button class="my-btn">Папки</button>
+                    {% for m in menu %}
+                    <button class="my-btn">{{m.title}}</button>
+                    {% endfor %}
                 </div>
             </div>
             <div class="account-all">

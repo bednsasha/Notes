@@ -5,6 +5,13 @@ from django.utils.text import slugify
 from .forms import  noteForm
 from .models import   Note, Category
 
+menu=[{'title':'Все заметки','url_name':'home'},
+      {'title':'Избранное','url_name':'favourites'},
+      {'title':'Корзина','url_name':'basket'},
+      {'title':'Папки','url_name':'category'},
+      
+]
+
 def page_not_found(request,exception):
     return render(request, '404.html', status=404)
 
@@ -41,7 +48,8 @@ def add_note (request):
     categories = Category.objects.all()  # Получаем все категории
     data = {
         'form': form,
-        'categories': categories,  # Передаем категории в контекст
+        'categories': categories, # Передаем категории в контекст
+        'menu': menu,
     }
     
     return render(request, 'note.html', data)
@@ -73,14 +81,17 @@ def edit_note(request,slug):
     context = {'form':form, 'create':create,'modify':modify, 'categories': categories, }
     return render(request, 'note.html', context)
 
-def categories(request, slug_cat):
-    return HttpResponse("<h1>Заметки по категориям</h1>")
-
+def categories(request):
+    return render(request,'folders.html',{'menu':menu, 'category':Category.objects.all()})
 
 
     
 
+def basket(request):
+    return render(request, 'basket.html', {'menu':menu})
 
+def favourites(request):
+    return render(request, 'favourites.html',{'menu':menu})
 
 def authorization(request):
     return render(request, 'authorization.html')
@@ -93,3 +104,6 @@ def password_change(request):
 
 def code(request):
     return render(request, 'code.html')
+
+def certain_categories(request):
+    return render(HttpResponse(request))
