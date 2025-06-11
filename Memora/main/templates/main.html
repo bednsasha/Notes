@@ -18,20 +18,32 @@
 
 <body class="background">
 
-    <header>
+   <header>
         <div class="heder-all">
-            <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
+            <img src="{% static 'img/logo_header.svg' %}" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
-                    <button class="activе-bt">Все заметки</button>
-                    <button class="my-btn">Избранное</button>
-                    <button class="my-btn">Корзина</button>
-                    <button class="my-btn">Папки</button>
+                    
+                    {% for m in menu %}
+            
+                    {% if 'Все заметки' in m.title  %}
+                    <a href="{% url m.url_name  %}">
+                        <button class="activе-bt">{{m.title}} </button>
+                    </a>
+                   
+                    {% else %}
+
+                    <a href="{% url m.url_name  %}">
+                    <button class="my-btn" href="{% url m.url_name %}">{{m.title}}</button>
+
+                    </a>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="account-all">
                 <a href="#" class="leave-header">Выйти</a>
-                <img src="img/akk.svg" alt="account" class="account">
+                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
             </div>
 
         </div>
@@ -39,212 +51,225 @@
 
 
 
-    <section style="margin-top: 80px;">
+   <section style="margin-top: 80px;">
         <div class="container">
-            <div class="row g-5">
+            <div class="row g-5 mb-4">
 
 
                 <div class="col-md-6 col-lg-3">
                     <div class="plus-all">
-                        <button class="plus">
-                            <img src="img/plus.svg" title="Создать" alt="plus">
-                        </button>
-                        <div class="text-plus">Новая запись</div>
-                    </div>
+        <a href="{% url 'add_note' %}" class="plus">
+            <img src="{% static 'img/plus.svg' %}" title="Создать" alt="Создать новую запись">
+        </a>
+        <div class="text-plus ">Новая запись</div>
+    </div>
                 </div>
-
+                {% for note in notes %}
                 <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;" ondblclick="toggleCheckbox(this)">
+                    <div class="card-all " >
+                        <div class="card border-light mb-3" style="max-width: 18rem; " data-note-id="{{ note.id }}">
                             <div class="card-header">
-                                <div class="card-title">Заголовок</div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
+                                <div class="card-title"> {{note.title}} </div>
+                                <div class="button-note" style="display: flex; gap: 10px;">
+                                    <form method="post" action="{% url 'list_basket' note.id %}">
+                                        {% csrf_token %}
+                                        <button class="delete" title="Поместить в «Корзину»">
+                                            <img src="{% static 'img/del.svg' %}" alt="del">
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="{% url 'list_fav' note.id %}">
+                                    {% csrf_token %}
+                                    <button class="star"  type="submit" title="Добавить в «Избранное»">
+                                        <img src="{% if note.favourites %}{% static 'img/star-fill.svg' %}{% else %}{% static 'img/star1.svg' %}{% endif %}" alt="star">
                                     </button>
-                                    <button class="star" title="Избранное">
-                                        <img src="img/star1.svg" alt="star">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg" alt="edit">
+                                    </form>
+                                    <button class="edit" title="Редактировать" onclick="window.location.href='{% url 'edit_note' note.slug %}'">
+                                        <img src="{% static 'img/edit.svg' %}" alt="edit">
                                     </button>
                                 </div>
+
                             </div>
                             <div class="text2">
                                 <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю. Съешь ещё этих
-                                    мягких
-                                    французских булок, да выпей же чаю. Съешь ещё этих мягких французских булок,
-                                    да выпей же чаю. Съешь ещё этих мягких французских булок, да выпей же чаю.
+                                   {{note.content}}
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
-
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;" ondblclick="toggleCheckbox(this)">
-                            <div class="card-header">
-                                <div class="card-title">Заголовок</div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star" title="Избранное">
-                                        <img src="img/star1.svg" alt="star">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg" alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю. Съешь ещё этих
-                                    мягких
-                                    французских булок, да выпей же чаю. Съешь ещё этих мягких французских булок,
-                                    да выпей же чаю. Съешь ещё этих мягких французских булок, да выпей же чаю.
-                                </div>
-                            </div>
-                        </div>
+                {% if forloop.counter == 3 %}
                     </div>
-                </div>
+                    <div class="row g-5 mb-4" >
+                {% endif %}
 
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;" ondblclick="toggleCheckbox(this)">
-                            <div class="card-header">
-                                <div class="card-title">Заголовок</div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star" title="Избранное">
-                                        <img src="img/star1.svg" alt="star">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg" alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю. Съешь ещё этих
-                                    мягких
-                                    французских булок, да выпей же чаю. Съешь ещё этих мягких французских булок,
-                                    да выпей же чаю. Съешь ещё этих мягких французских булок, да выпей же чаю.
-                                </div>
-                            </div>
-                        </div>
+                {% if forloop.counter > 3 and forloop.counter|add:1|divisibleby:4  %}
                     </div>
-                </div>
+                    <div class="row g-5 mb-4" >
+                {% endif %}
+            {% endfor %}
 
 
 
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;" ondblclick="toggleCheckbox(this)">
-                            <div class="card-header">
-                                <div class="card-title">Заголовок</div>
-                                <div class="button-note">
-                                    <button class="delete" title="Поместить в «Корзину»" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star" title="Избранное">
-                                        <img src="img/star1.svg" alt="star">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg" alt="edit">
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю. Съешь ещё этих
-                                    мягких
-                                    французских булок, да выпей же чаю. Съешь ещё этих мягких французских булок,
-                                    да выпей же чаю. Съешь ещё этих мягких французских булок, да выпей же чаю.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div id="main_menu" style="display: none; position: absolute;">
+    <div class="text-menu" data-action="fav">Добавить в «Избранное»</div>
+    <div class="text-menu" data-action="basket">Добавить в «Корзину»</div>
+</div>
+<script>
+    
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('menu:', document.getElementById("main_menu"));
 
-                <div id="main_menu">
-                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Избранное»</div>
-                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Корзину»</div>
-                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в папку</div>
-                </div>
+    const menu = document.getElementById("main_menu");
+    const cards = document.querySelectorAll(".card");
 
-                <script>
+    let currentNoteId = null;
+    
 
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const menu = document.getElementById("main_menu");
-                        const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+        card.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            console.log('Открытие меню для note ID:', card.getAttribute('data-note-id'));
+    
+            currentNoteId = card.getAttribute('data-note-id');
 
-                        function showMenu(e) {
-                            e.preventDefault();
-                            menu.style.left = e.clientX + 'px';
-                            menu.style.top = e.clientY + 'px';
-                            menu.style.display = 'block';
-                        }
+            let posX = e.pageX;
+            let posY = e.pageY;
 
-                        function hideMenu() {
-                            menu.style.display = 'none';
-                        }
+            const menuWidth = menu.offsetWidth;
+            const menuHeight = menu.offsetHeight;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            if (posX + menuWidth > windowWidth) posX -= menuWidth;
+            if (posY + menuHeight > windowHeight) posY -= menuHeight;
+
+            menu.style.left = posX + 'px';
+            menu.style.top = posY + 'px';
+            menu.style.display = 'block';
+        });
+    });
+
+    menu.addEventListener('click', async (e) => {
+        if (e.target.classList.contains('text-menu')) {
+            const action = e.target.getAttribute('data-action');
+            if (!currentNoteId) return;
+
+            if (action === 'fav') {
+                fetch(`/favourites/${currentNoteId}`, {
+    method: 'POST',
+    headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Content-Type': 'application/json'
+    }
+}).then(response => response.json())
+  .then(data => {
+    console.log('Ответ от сервера', data);
+    alert(data.favourites ? 'Заметка добавлена в избранное' : 'Заметка удалена из избранного');
+    
+    // Найти нужную иконку в карточке и обновить:
+    const card = document.querySelector(`.card[data-note-id="${currentNoteId}"]`);
+    
+    if (card) {
+        const img = card.querySelector('img.star'); // добавьте соответствующий класс к <img>
+        if (img) {
+            img.src = data.favourites ? '/static/img/star-fill.svg' : '/static/img/star1.svg';
+        }
+    }
+    location.reload();
 
 
-                        cards.forEach(card => {
-                            card.addEventListener('contextmenu', showMenu);
-                        });
-
-                        document.addEventListener('click', hideMenu);
+    
+});
 
 
-                        function jump(element) {
-                            const url = element.getAttribute('url');
-                            if (url) {
-                                window.location.href = url;
-                            }
-                        }
-                    });
-
-                    function confirmDelete() {
-                        if (confirm("Вы действительно хотите удалить эту запись?")) {
-
-                            console.log("Запись удалена");
-
-                        } else {
-                            console.log("Удаление отменено");
-                        }
+            } 
+               else if (action === 'basket') {
+            // Запрос на добавление в корзину
+            try {
+                const response = await fetch(`/list_basket/${currentNoteId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
+                });
 
-                    document.querySelectorAll('.star').forEach(starButton => {
-                        const starIcon = starButton.querySelector('img');
-                        let isActive = false;
+                const data = await response.json(); // Предполагаем, что ответ json
 
-                        starButton.addEventListener('click', function () {
-                            if (isActive) {
-                                starIcon.src = "img/star1.svg";
-                                starIcon.alt = "star1";
-                            } else {
-                                starIcon.src = "img/star-fill.svg";
-                                starIcon.alt = "star2";
-                            }
-                            isActive = !isActive;
-                        });
-                    });
-                </script>
+                if (data.success) {
+                    alert('Заметка добавлена в корзину');
+                    const card = document.querySelector(`.card[data-note-id="${currentNoteId}"]`);
+                    if (card) {
+                        card.remove(); // Удаляем заметку с экрана
+                    }
+                } else {
+                    alert(data.message || 'Ошибка при добавлении в корзину');
+                }
+            } catch {
+                alert('Ошибка сети, попробуйте еще раз');
+            }
+        }
+
+        menu.style.display = 'none';
+    }
+});
+
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target)) {
+            menu.style.display = 'none';
+        }
+    });
+    document.querySelectorAll('.fav-form .star').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const form = this.closest('form');
+        const url = form.getAttribute('action');
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновляем текущую страницу для отражения изменений
+                location.reload();
+            } else {
+                alert(data.message || 'Ошибка при добавлении в избранное');
+            }
+        })
+        .catch(() => alert('Ошибка сети, попробуйте еще раз'));
+    });
+});
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+
 
 
             </div>

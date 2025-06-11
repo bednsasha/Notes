@@ -6,20 +6,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memora</title>
-    <link href="{% static 'Bootstrap/bootstrap.min.css" rel="stylesheet' %}" crossorigin="anonymous">
+    <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
     <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+    <style>
 
+  
+
+        form {
+            max-width: 800px;
+            min-height: 70%;
+            margin: 40px auto;
+            background-color: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
 </head>
-<body>
+
+<body style="background-color: #111827;">
+    <header>
+        <div class="heder-all">
+            <img src="{% static 'img/logo_header.svg' %}" alt="Logo_header" class="logo_header">
+            <div class="container">
+                <div class="button-all">
+                    {% for m in menu %}
+                    <a href="{% url m.url_name %}">
+                        <button class="my-btn">{{ m.title }}</button>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="account-all">
+                <a href="#" class="leave-header">Выйти</a>
+                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+            </div>
+        </div>
+    </header>
+
     <form method="POST">
-      {% csrf_token %} 
-      {{ form.as_p }}
-      <p>{{modify}}</p>
-      <p>{{create}}</p>
-      <button class="btn btn-secondary sm" type="submit">save</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+            <p>{{ modify }}</p>
+            <p>{{ create }}</p>
+        </div>
+        <button class="btn btn-secondary sm" type="submit">Сохранить</button>
     </form>
 </body>
-</html> 
+
+</html>

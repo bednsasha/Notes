@@ -52,7 +52,7 @@
 
     <section style="margin-top: 80px;">
         <div class="container">
-            <div class="row g-5">
+            <div class="row g-5 mb-4">
 
                 <div class="col-md-6 col-lg-3">
                     <div class="plus-all">
@@ -62,31 +62,121 @@
                         <div class="text-plus">Создать папку</div>
                     </div>
                 </div>
-
-
+                {% for cat in category %}
                 <div class="col-md-6 col-lg-3">
-                    <div class="folder-all">
-                        <img src="{% static 'img/folder.svg' %}" alt="folder">
-                        <div class="text-folder">Название</div>
-                    </div>
+                   <div class="folder-all">
+                    <img src="{% static 'img/folder.svg' %}" alt="folder" class="folder-icon" data-cat-slug="{{ cat.slug }}">
+                    <div class="text-folder" data-cat-id="{{ cat.id }}">{{ cat.name }}</div>
                 </div>
 
-                <div class="col-md-6 col-lg-3">
-                    <div class="folder-all">
-                        <img src="{% static 'img/folder.svg' %}" alt="folder">
-                        <div class="text-folder">Название</div>
-                    </div>
                 </div>
-
-
                 
 
+                {% if forloop.counter == 3 %}
+                    </div>
+                    <div class="row g-5 mb-4" >
+                {% endif %}
 
-               
-                
+                {% if forloop.counter > 3 and forloop.counter|add:1|divisibleby:4  %}
+                    </div>
+                    <div class="row g-5 mb-4" >
+                {% endif %}
+            {% endfor %}
             </div>
         </div>
     </section>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Перенаправление по двойному клику на иконку
+    document.querySelectorAll('.folder-icon').forEach(icon => {
+        icon.addEventListener('dblclick', () => {
+            const slug = icon.dataset.catSlug;
+            window.location.href = `/folder/${slug}`;
+            // Или если используете reverse URL, сформируйте URL динамически
+        });
+    });
+
+    // Редактирование имени по одиночному клику
+    document.querySelectorAll('.text-folder').forEach(el => {
+        el.addEventListener('click', () => {
+            if (el.querySelector('input')) return; // Уже редактируется
+
+            const catId = el.dataset.catId;
+            console.log(catId)
+            const oldName = el.textContent.trim();
+
+            // Создаем input для редактирования
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = oldName;
+            input.classList.add('edit-input');
+            el.textContent = '';
+            el.appendChild(input);
+            input.focus();
+
+            const save = () => {
+                const newName = input.value.trim();
+                if (newName && newName !== oldName) {
+                    fetch(`/folder/${catId}/edit/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken'),
+                        },
+                        body: JSON.stringify({ name: newName }),
+                    })
+                    .then(response => {
+                        if (response.ok) el.textContent = newName;
+                        else {
+                            alert('Ошибка при обновлении!');
+                            el.textContent = oldName;
+                        }
+                        
+                    })
+                    .catch(() => {
+                        alert('Ошибка связи с сервером!');
+                        el.textContent = oldName;
+                    });
+                } else {
+                    el.textContent = oldName;
+                }
+            };
+
+            input.addEventListener('blur', save);
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') input.blur();
+                if (e.key === 'Escape') el.textContent = oldName;
+            });
+        });
+    });
+});
+
+// Функция получения CSRF токена — оставьте без изменений
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.slice(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+</script>
+
+
+
+    </section>
+
+
 </body>
 
 </html>

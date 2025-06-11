@@ -20,18 +20,30 @@
 
     <header>
         <div class="heder-all">
-            <img src="img/logo_header.svg" alt="Logo_header" class="logo_header">
+            <img src="{% static 'img/logo_header.svg' %}" alt="Logo_header" class="logo_header">
             <div class="container">
                 <div class="button-all">
-                    <button class="my-btn">Все заметки</button>
-                    <button class="my-btn">Избранное</button>
-                    <button class="my-btn">Корзина</button>
-                    <button class="activе-bt">Папки</button>
+                    {% for m in menu %}
+            
+                    {% if 'Папки' in m.title  %}
+      
+                    <a href="{% url m.url_name  %}">
+                        <button class="activе-bt">{{m.title}} </button>
+                    </a>
+                   
+                    {% else %}
+
+                    <a href="{% url m.url_name  %}">
+                    <button class="my-btn" href="{% url m.url_name %}">{{m.title}}</button>
+
+                    </a>
+                    {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="account-all">
                 <a href="#" class="leave-header">Выйти</a>
-                <img src="img/akk.svg" alt="account" class="account">
+                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
             </div>
 
         </div>
@@ -41,43 +53,46 @@
 
     <section style="margin-top: 80px;">
         <div class="container">
-            <div class="row g-5">
+            <div class="row g-5 mb-4">
 
 
                 <div class="col-md-6 col-lg-3">
                     <div class="plus-all">
-                        <button class="plus">
-                            <img src="img/plus.svg" title="Создать" alt="plus">
-                        </button>
-                        <div class="text-plus">Новая запись</div>
-                    </div>
+        <a href="{% url 'add_note' %}" class="plus">
+            <img src="{% static 'img/plus.svg' %}" title="Создать" alt="Создать новую запись">
+        </a>
+        <div class="text-plus">Новая запись</div>
+    </div>
                 </div>
-
+                {% for note in notes %}
                 <div class="col-md-6 col-lg-3">
                     <div class="card-all">
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
+                                <div class="card-title"> {{ note.title|slice:":30"|default:"Noname" }} </div>
+                                <div class="button-note" style="display: flex; gap: 10px;">
+                                    <form method="post" action="{% url 'list_basket' note.id %}">
+                                        {% csrf_token %}
+                                        <button class="delete" title="Поместить в «Корзину»">
+                                            <img src="{% static 'img/del.svg' %}" alt="del">
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="{% url 'list_fav' note.id %}">
+                                    {% csrf_token %}
+                                    <button class="star" title="Добавить в «Избранное»">
+                                        <img src="{% if note.favourites %}{% static 'img/star-fill.svg' %}{% else %}{% static 'img/star1.svg' %}{% endif %}" alt="star">
                                     </button>
-                                    <button class="star" title="Сохранить в «Избранное»">
-                                        <img src="img/star1.svg"  alt="star1">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
+                                    </form>
+                                    <button class="edit" title="Редактировать" onclick="window.location.href='{% url 'edit_note' note.slug %}'">
+                                        <img src="{% static 'img/edit.svg' %}" alt="edit">
                                     </button>
                                 </div>
 
                             </div>
                             <div class="text2">
                                 <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
+                                   {{note.content}}
                                 </div>
                             </div>
 
@@ -85,114 +100,20 @@
                     </div>
 
                 </div>
-
-
-
-
-               <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star" title="Сохранить в «Избранное»">
-                                        <img src="img/star1.svg"  alt="star1">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-
-                        </div>
+                {% if forloop.counter == 3 %}
                     </div>
+                    <div class="row g-5 mb-4" >
+                {% endif %}
 
-                </div>
-
-
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star" title="Сохранить в «Избранное»">
-                                        <img src="img/star1.svg"  alt="star1">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-
-                        </div>
+                {% if forloop.counter > 3 and forloop.counter|add:1|divisibleby:4  %}
                     </div>
+                    <div class="row g-5 mb-4" >
+                {% endif %}
+            {% endfor %}
 
-                </div>
 
 
-
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="card-all">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
-                            <div class="card-header">
-                                <div class="card-title"> Заголовок </div>
-                                <div class="button-note">
-                                    <button class="delete" title="Удалить" onclick="confirmDelete()">
-                                        <img src="img/del.svg" alt="del">
-                                    </button>
-                                    <button class="star" title="Сохранить в «Избранное»">
-                                        <img src="img/star1.svg"  alt="star1">
-                                    </button>
-                                    <button class="edit" title="Редактировать">
-                                        <img src="img/edit.svg"  alt="edit">
-                                    </button>
-                                </div>
-
-                            </div>
-                            <div class="text2">
-                                <div class="text-truncate-multiline">
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю Съешь ещё этих мягких
-                                    французских булок,
-                                    да выпей же чаю Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                    Съешь ещё этих мягких французских булок, да выпей же чаю
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
+               
 
 
 
@@ -251,11 +172,15 @@
 
                         starButton.addEventListener('click', function () {
                             if (isActive) {
-                                starIcon.src = "img/star1.svg";
+                                <!-- делаем неактивной -->
+                                starIcon.src = "{% static 'img/star1.svg' %}";
                                 starIcon.alt = "star1";
+                                
                             } else {
-                                starIcon.src = "img/star-fill.svg";
+                                <!-- делаем активной -->
+                                starIcon.src = "{% static 'img/star-fill.svg' %}";
                                 starIcon.alt = "star2";
+                                
                             }
                             isActive = !isActive;
                         });
