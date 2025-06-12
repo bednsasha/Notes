@@ -1,10 +1,11 @@
 import json
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views import View
 from slugify import slugify
-
+from django.contrib.auth.decorators import login_required
 
 from .forms import  noteForm
 from .models import   Note, Category
@@ -19,8 +20,7 @@ menu=[{'title':'Все заметки','url_name':'home'},
 def page_not_found(request,exception):
     return render(request, '404.html', status=404)
 
-
-
+@login_required(login_url='/users/login/')
 def add_note (request):
     
     if request.method=='POST':
@@ -31,16 +31,25 @@ def add_note (request):
                     title = form.cleaned_data['title']
                     
                     new_category_name = form.cleaned_data.get('new_category_name')
-                    if new_category_name:
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name))
+                    if new_category_name!='Noname':
+                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=request.user)
+                        print(category, new_category_name)
+                    else:
+                        category_id = request.POST.get('category')
+                        category = Category.objects.get(id=category_id, owner=request.user)
+
+                        print('*', category)
                     note = Note.objects.create(
                     title=title,
                     slug = slugify(title),
                     content=form.cleaned_data.get('content'),
-                    category_id=category.pk
+                    category_id=category.pk,
+                    owner=request.user
                     ) 
-                    
+                
                     return redirect('edit_note', slug=note.slug)
+               
+                    
                     
                 except Exception as e:
                     form.add_error(None, 'Ошибка: ' + str(e))
@@ -49,7 +58,7 @@ def add_note (request):
                 
     else:
         form = noteForm()
-    categories = Category.objects.all()  # Получаем все категории
+    categories = Category.objects.filter(owner=request.user)  # Получаем все категории
     data = {
         'form': form,
         'categories': categories, # Передаем категории в контекст
@@ -58,6 +67,7 @@ def add_note (request):
     
     return render(request, 'note.html', data)
 
+@login_required(login_url='/users/login/')
 def edit_note(request,slug):
     note= Note.objects.get(slug=slug)
     
@@ -77,48 +87,38 @@ def edit_note(request,slug):
                     return redirect('edit_note', slug=note.slug)
                     
                 if new_category_name:
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name)) 
+                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=request.user) 
                         
                      
                 form.save()
-    categories = Category.objects.all()
+    categories = Category.objects.filter(owner=request.user)
     context = {'form':form, 'create':create,'modify':modify, 'categories': categories, 'menu':menu  }
     return render(request, 'note.html', context)
 
 def categories(request):
-    return render(request,'folders.html',{'menu':menu, 'category':Category.objects.all()})
+    return render(request,'folders.html',{'menu':menu, 'category':Category.objects.filter(owner=request.user)})
 
 
     
 
 def basket(request):
-    list_bask=Note.objects.filter( in_basket=True)
+    list_bask=Note.objects.filter( in_basket=True, owner=request.user)
     return render(request, 'basket.html',{'menu':menu, 'notes':list_bask,})
 
 def favourites(request):
-    list_favourites=Note.objects.filter(favourites=1, in_basket=False)
+    list_favourites=Note.objects.filter(favourites=1, in_basket=False, owner=request.user)
     return render(request, 'favourites.html',{'menu':menu, 'notes':list_favourites,})
 
-def authorization(request):
-    return render(request, 'authorization.html')
 
-def registration(request):
-    return render(request, 'registration.html')
-
-def password_change(request):
-    return render(request, 'password_change.html')
-
-def code(request):
-    return render(request, 'code.html')
 
 def certain_categories(request, slug_cat):
-    cat_id= get_object_or_404(Category, slug=slug_cat)
-    notes=Note.objects.filter(category_id=cat_id.id,  in_basket=False)
+    cat_id= get_object_or_404(Category, slug=slug_cat, owner=request.user)
+    notes=Note.objects.filter(category_id=cat_id.id,  in_basket=False, owner=request.user)
     return render(request, 'folder_note.html', {'menu':menu,'slug':slug_cat, 'notes':notes})
 
-class CategoryEditView(View):
+class CategoryEditView(LoginRequiredMixin, View):
     def post(self, request, pk):
-        cat = get_object_or_404(Category, pk=pk)
+        cat = get_object_or_404(Category, pk=pk, owner=request.user)
         data = json.loads(request.body)
         new_name = data.get('name', '').strip()
         if new_name:
@@ -130,64 +130,49 @@ class CategoryEditView(View):
         return JsonResponse({'status': 'error'}, status=400)
 
 def main(request):
-    notes=Note.objects.filter(in_basket=False)
+    notes=Note.objects.filter(in_basket=False, owner=request.user)
     return render(request,'main.html',{'menu':menu,'notes':notes})
 
+
+@login_required(login_url='/users/login/')
 def list_fav(request, note_id):
     if request.method == 'POST':
-        note = get_object_or_404(Note, pk=note_id)
+        note = get_object_or_404(Note, pk=note_id, owner=request.user)
         note.favourites = not note.favourites # Переключаем состояние
         note.save()
     
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
+@login_required(login_url='/users/login/')
 def list_basket(request, note_id):
     if request.method == 'POST':
-        note = get_object_or_404(Note, pk=note_id)
+        note = get_object_or_404(Note, pk=note_id, owner=request.user)
         note.in_basket = not note.in_basket  # Переключаем состояние
         print(f"Note ID: {note.id}, in_basket: {note.in_basket}")  # Для отладки
         note.save()
     return redirect(request.META.get('HTTP_REFERER', 'home'))
     #return JsonResponse({"success": True}) 
 
+@login_required(login_url='/users/login/')
 def delete_note(request, note_id):
     if request.method == 'POST':
-        note = get_object_or_404(Note, pk=note_id)
+        note = get_object_or_404(Note, pk=note_id, owner=request.user)
         note.delete()
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
-def Add_note(request):
-    if request.method == 'POST':
-        form = noteForm(request.POST)
-        if form.is_valid():
-            note = form.save(commit=False)
-            new_cat_name = form.cleaned_data.get('new_category_name')
-            if new_cat_name:
-                # Создаем новую категорию (пример, если у вас есть модель Category)
-                category = Category.objects.create(name=new_cat_name)
-                note.category = category
-            else:
-                # Используем выбранную категорию из формы
-                note.category = form.cleaned_data.get('category')
-            note.save()
-            return redirect('some_view_name', note.pk)
+@login_required(login_url='/users/login/')
+def add_folder(request):
+    if request.method == "POST":
+        name = request.POST.get('name', 'Noname').strip()
+        if not name:
+            name = 'Noname'
+        slug = slugify(name)
+        
+        # Проверяем уникальность slug
+        if Category.objects.filter(slug=slug, owner=request.user).exists():
+            return JsonResponse({'error': 'Категория с таким именем уже существует'}, status=400)
+
+        category = Category.objects.create(name=name, slug=slug, owner=request.user)
+        return JsonResponse({'message': 'Категория создана', 'id': category.id, 'name': category.name})
     else:
-        form = noteForm()
-    return render(request, 'note(style).html', {'form': form})
-
-
-def Edit_note(request, pk):
-    note = get_object_or_404(Note, pk=pk)
-    if request.method == 'POST':
-        form = noteForm(request.POST, instance=note)
-        if form.is_valid():
-            note = form.save()
-            return redirect('note(style).html', note.pk)  # Перенаправление на подробности заметки
-    else:
-        form = noteForm(instance=note)
-    
-    return render(request, 'note(style).html', {'form': form})
-
-def note_detail(request, pk):
-    note = get_object_or_404(Note, pk=pk)
-    return render(request, 'note(style).html', {'note': note})
+        return JsonResponse({'error': 'Неверный метод'}, status=405)

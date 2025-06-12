@@ -56,11 +56,11 @@
 
                 <div class="col-md-6 col-lg-3">
                     <div class="plus-all">
-                        <button class="plus">
-                            <img src="{% static 'img/plus.svg' %}" title="Создать" alt="plus">
-                        </button>
-                        <div class="text-plus">Создать папку</div>
-                    </div>
+        <a href="{% url 'add_folder' %}" class="plus" id="create-category-btn">
+            <img src="{% static 'img/plus.svg' %}" title="Создать" alt="Создать папку">
+        </a>
+        <div class="text-plus ">Создать папку</div>
+    </div>
                 </div>
                 {% for cat in category %}
                 <div class="col-md-6 col-lg-3">
@@ -97,6 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // Или если используете reverse URL, сформируйте URL динамически
         });
     });
+    document.getElementById('create-category-btn').addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch('/add_folder/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken') // если у вас стоит CSRF защита
+        },
+        body: 'name=Noname'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Ошибка: ' + data.error);
+        } else {
+            alert('Папка "' + data.name + '" успешно создана');
+            
+            // Здесь можно обновить список категорий на странице без перезагрузки
+        }
+    });
+    location.reload()
+});
+
 
     // Редактирование имени по одиночному клику
     document.querySelectorAll('.text-folder').forEach(el => {

@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora</title>
+    <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <script src="{% static 'Bootstrap/bootstrap.bundle.min.js'%}" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="preloader-container">
+            <img src="{% static 'img/загрузка.svg'%}" alt="Loading..." class="preloader-img">
+            <div class="preloader-mask"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            setTimeout(function () {
+                const preloader = document.querySelector(".preloader");
+                const content = document.querySelector(".content");
+
+                preloader.style.opacity = "0";
+                preloader.style.transition = "opacity 1s ease";
+
+                content.style.display = "block";
+
+
+                setTimeout(() => {
+                    preloader.remove(); // Важно: полностью удаляем элемент
+                }, 500);
+            }, 2000);
+        });
+    </script>
+    <div class="authorization-all">
+        <div class="background-authorization">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="banner-all">
+                        <img src="{% static 'img/Logo_1.svg' %}" alt="Logo_1" class="logo-authorization">
+                        <div class="text-banner">Твои идеи заслуживают идеального порядка</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="form">
+            <div class="form-text-top">
+                <div class="inlet">Вход / </div>
+
+                <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                    href="{% url 'users:registration' %}">
+                    Регистрация
+                </a>
+            </div>
+
+          <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+            <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+            <p><a href="{% url 'users:password_change' %}">Забыли пароль?</a></p>
+            <div class="but">
+                 <button type="submit" class="btn btn-primary">Войти</button>
+            </div>
+            </form>
+
+
+        </section>
+    </div>
+</body>
+
+</html>

@@ -2,11 +2,14 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+   
+from django.conf import settings
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, blank=True, default='Noname')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, blank=True)
-
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
@@ -30,6 +33,7 @@ class Note(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     favourites = models.BooleanField(default=False)
     in_basket = models.BooleanField(default=False)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
