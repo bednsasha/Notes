@@ -1,4 +1,5 @@
 import json
+from urllib import request
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,7 +9,7 @@ from slugify import slugify
 from django.contrib.auth.decorators import login_required
 
 from .forms import  noteForm
-from .models import   Note, Category
+from .models import   ApplicantProfile, Note, Category
 
 menu=[{'title':'Все заметки','url_name':'home'},
       {'title':'Избранное','url_name':'favourites'},
@@ -17,12 +18,14 @@ menu=[{'title':'Все заметки','url_name':'home'},
       
 ]
 
+
 def page_not_found(request,exception):
     return render(request, '404.html', status=404)
 
 @login_required(login_url='/users/login/')
 def add_note (request):
-    
+    profile = ApplicantProfile.objects.get(user=request.user)
+
     if request.method=='POST':
             form = noteForm(request.POST)
             
@@ -32,11 +35,11 @@ def add_note (request):
                     
                     new_category_name = form.cleaned_data.get('new_category_name')
                     if new_category_name!='Noname':
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=request.user)
+                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=profile)
                         print(category, new_category_name)
                     else:
                         category_id = request.POST.get('category')
-                        category = Category.objects.get(id=category_id, owner=request.user)
+                        category = Category.objects.get(id=category_id, owner=profile)
 
                         print('*', category)
                     note = Note.objects.create(
@@ -44,7 +47,7 @@ def add_note (request):
                     slug = slugify(title),
                     content=form.cleaned_data.get('content'),
                     category_id=category.pk,
-                    owner=request.user
+                    owner=profile
                     ) 
                 
                     return redirect('edit_note', slug=note.slug)
@@ -58,7 +61,8 @@ def add_note (request):
                 
     else:
         form = noteForm()
-    categories = Category.objects.filter(owner=request.user)  # Получаем все категории
+   
+    categories = Category.objects.filter(owner=profile)  # Получаем все категории
     data = {
         'form': form,
         'categories': categories, # Передаем категории в контекст
@@ -70,7 +74,7 @@ def add_note (request):
 @login_required(login_url='/users/login/')
 def edit_note(request,slug):
     note= Note.objects.get(slug=slug)
-    
+    profile = ApplicantProfile.objects.get(user=request.user)
     form = noteForm(instance=note)
     create=note.created_at 
     modify=note.modified_at
@@ -87,38 +91,63 @@ def edit_note(request,slug):
                     return redirect('edit_note', slug=note.slug)
                     
                 if new_category_name:
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=request.user) 
+                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=profile) 
                         
                      
                 form.save()
-    categories = Category.objects.filter(owner=request.user)
+    categories = Category.objects.filter(owner=profile)
     context = {'form':form, 'create':create,'modify':modify, 'categories': categories, 'menu':menu  }
     return render(request, 'note.html', context)
 
 def categories(request):
-    return render(request,'folders.html',{'menu':menu, 'category':Category.objects.filter(owner=request.user)})
+    if not request.user.is_authenticated:
+        return render(request,'folders.html',{'menu':menu, 'category':None})
+    else:
+        profile = ApplicantProfile.objects.get(user=request.user)
+        return render(request,'folders.html',{'menu':menu, 'category':Category.objects.filter(owner=profile)})
 
 
     
 
 def basket(request):
-    list_bask=Note.objects.filter( in_basket=True, owner=request.user)
+    
+    
+    if request.user.is_authenticated:
+        profile = ApplicantProfile.objects.filter(user=request.user).first()
+        if profile:
+            list_bask=Note.objects.filter( in_basket=True, owner=profile)
+        else:
+            list_bask = Note.objects.none()
+    else:
+       list_bask = Note.objects.none()
+   
     return render(request, 'basket.html',{'menu':menu, 'notes':list_bask,})
 
 def favourites(request):
-    list_favourites=Note.objects.filter(favourites=1, in_basket=False, owner=request.user)
+    
+    if request.user.is_authenticated:
+        profile = ApplicantProfile.objects.filter(user=request.user).first()
+        if profile:
+            list_favourites=Note.objects.filter(favourites=1, in_basket=False, owner=profile)
+        else:
+            list_favourites = Note.objects.none()
+    else:
+       list_favourites = Note.objects.none()
+    
     return render(request, 'favourites.html',{'menu':menu, 'notes':list_favourites,})
 
 
 
 def certain_categories(request, slug_cat):
-    cat_id= get_object_or_404(Category, slug=slug_cat, owner=request.user)
-    notes=Note.objects.filter(category_id=cat_id.id,  in_basket=False, owner=request.user)
+    profile = ApplicantProfile.objects.get(user=request.user)
+    cat_id= get_object_or_404(Category, slug=slug_cat, owner=profile)
+    notes=Note.objects.filter(category_id=cat_id.id,  in_basket=False, owner=profile)
     return render(request, 'folder_note.html', {'menu':menu,'slug':slug_cat, 'notes':notes})
 
 class CategoryEditView(LoginRequiredMixin, View):
     def post(self, request, pk):
-        cat = get_object_or_404(Category, pk=pk, owner=request.user)
+        profile = ApplicantProfile.objects.get(user=request.user)
+        cat = get_object_or_404(Category, pk=pk, owner=profile)
         data = json.loads(request.body)
         new_name = data.get('name', '').strip()
         if new_name:
@@ -130,14 +159,23 @@ class CategoryEditView(LoginRequiredMixin, View):
         return JsonResponse({'status': 'error'}, status=400)
 
 def main(request):
-    notes=Note.objects.filter(in_basket=False, owner=request.user)
-    return render(request,'main.html',{'menu':menu,'notes':notes})
+    if request.user.is_authenticated:
+        profile = ApplicantProfile.objects.filter(user=request.user).first()
+        if profile:
+            notes = Note.objects.filter(in_basket=False, owner=profile)
+        else:
+            notes = Note.objects.none()
+    else:
+        notes = Note.objects.none()
+
+    return render(request, 'main.html', {'menu': menu, 'notes': notes})
 
 
 @login_required(login_url='/users/login/')
 def list_fav(request, note_id):
+    profile = ApplicantProfile.objects.get(user=request.user)
     if request.method == 'POST':
-        note = get_object_or_404(Note, pk=note_id, owner=request.user)
+        note = get_object_or_404(Note, pk=note_id, owner=profile)
         note.favourites = not note.favourites # Переключаем состояние
         note.save()
     
@@ -146,7 +184,8 @@ def list_fav(request, note_id):
 @login_required(login_url='/users/login/')
 def list_basket(request, note_id):
     if request.method == 'POST':
-        note = get_object_or_404(Note, pk=note_id, owner=request.user)
+        profile = ApplicantProfile.objects.get(user=request.user)
+        note = get_object_or_404(Note, pk=note_id, owner=profile)
         note.in_basket = not note.in_basket  # Переключаем состояние
         print(f"Note ID: {note.id}, in_basket: {note.in_basket}")  # Для отладки
         note.save()
@@ -156,7 +195,8 @@ def list_basket(request, note_id):
 @login_required(login_url='/users/login/')
 def delete_note(request, note_id):
     if request.method == 'POST':
-        note = get_object_or_404(Note, pk=note_id, owner=request.user)
+        profile = ApplicantProfile.objects.get(user=request.user)
+        note = get_object_or_404(Note, pk=note_id, owner=profile)
         note.delete()
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
@@ -169,10 +209,11 @@ def add_folder(request):
         slug = slugify(name)
         
         # Проверяем уникальность slug
-        if Category.objects.filter(slug=slug, owner=request.user).exists():
+        profile = ApplicantProfile.objects.get(user=request.user)
+        if Category.objects.filter(slug=slug, owner=profile).exists():
             return JsonResponse({'error': 'Категория с таким именем уже существует'}, status=400)
 
-        category = Category.objects.create(name=name, slug=slug, owner=request.user)
+        category = Category.objects.create(name=name, slug=slug, owner=profile)
         return JsonResponse({'message': 'Категория создана', 'id': category.id, 'name': category.name})
     else:
         return JsonResponse({'error': 'Неверный метод'}, status=405)

@@ -53,6 +53,22 @@ body {
 .account-all {
     display: flex;
     align-items: center;
+    gap: 8px;
+}
+
+.user-logout {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.login-link {
+    margin-right: 10px;
+}
+
+.account {
+    display: block;
 }
 
 .account-all .leave-header {

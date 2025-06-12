@@ -1,15 +1,23 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-
-   
 from django.conf import settings
+from django.contrib.auth.models import User
 
+class ApplicantProfile(models.Model):
+    name = models.CharField(max_length = 50)
+    dob = models.DateField(null=True, blank=True)
+    email = models.EmailField()
+    description = models.TextField(null=True, blank=True)
+    # maybe a OneToOneField
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, blank=True, default='Noname')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, blank=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(ApplicantProfile, on_delete=models.CASCADE,)
+
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
@@ -33,7 +41,7 @@ class Note(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     favourites = models.BooleanField(default=False)
     in_basket = models.BooleanField(default=False)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(ApplicantProfile, on_delete=models.CASCADE,)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -55,11 +63,12 @@ class Note(models.Model):
         if not self.title:
             self.title = 'Noname'
         if not self.slug:
-            # Генерируем slug из title, можно добавить проверку на уникальность при необходимости
             self.slug = slugify(self.title)
         if not self.category:
-            # Если хотите, чтобы при отсутствии категории всегда ставился Category с названием 'Noname', можно создать или получить её
-            default_category, created = Category.objects.get_or_create(name='Noname')
+            default_category, created = Category.objects.get_or_create(
+                name='Noname',
+                owner=self.owner  # Важно передать owner, чтобы категория принадлежала тому же пользователю
+            )
             self.category = default_category
         super().save(*args, **kwargs)
 

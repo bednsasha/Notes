@@ -15,7 +15,6 @@
 </head>
 
 
-
 <body class="background">
 
    <header>
@@ -42,25 +41,37 @@
                 </div>
             </div>
             <div class="account-all">
-                
-                {% if user.is_authenticated %}
 
-                <form method="post" action="{% url 'users:logout' %}">
-                    {% csrf_token %}
-                    <a class="last"> {{user.username}} |  <button type="submit">Выйти</button></a>
-                   
-                </form>
+    {% if user.is_authenticated %}
+        <span class="user-logout">
+            {{ user.username }} | 
+            <a href="#" id="logout-link">Выйти</a>
+        </span>
 
+        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
+            {% csrf_token %}
+        </form>
 
-                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
-                {% else %}
-                <a class="last"><a href="{% url 'users:login' %}">Войти</a></li>
-                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+    {% else %}
+        <a href="{% url 'users:login' %}" class="login-link">Войти</a>
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account with-margin">
+    {% endif %}
 
-                {% endif %}
-            </div>
+</div>
 
-        </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('logout-form').submit();
+            });
+        }
+    });
+</script>
+
     </header>
 
 

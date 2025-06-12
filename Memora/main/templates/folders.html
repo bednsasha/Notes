@@ -42,10 +42,38 @@
                 </div> 
 
             </div>
-            <div class="account-all">
-                <a href="#" class="leave-header">Выйти</a>
-                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
-            </div>
+             <div class="account-all">
+
+    {% if user.is_authenticated %}
+        <span class="user-logout">
+            {{ user.username }} 
+            <a href="#" id="logout-link">Выйти</a>
+        </span>
+
+        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
+            {% csrf_token %}
+        </form>
+
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+    {% else %}
+        <a href="{% url 'users:login' %}" class="login-link">Войти</a>
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account with-margin">
+    {% endif %}
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('logout-form').submit();
+            });
+        }
+    });
+</script>
+
 
         </div>
     </header>
@@ -56,7 +84,7 @@
 
                 <div class="col-md-6 col-lg-3">
                     <div class="plus-all">
-        <a href="{% url 'add_folder' %}" class="plus" id="create-category-btn">
+        <a href="{% url 'add_folder' %}" class="plus" id="create-category-btn" data-auth="{% if user.username %}true{% else %}false{% endif %}">
             <img src="{% static 'img/plus.svg' %}" title="Создать" alt="Создать папку">
         </a>
         <div class="text-plus ">Создать папку</div>
@@ -87,7 +115,6 @@
     </section>
 
 <script>
-
 document.addEventListener('DOMContentLoaded', () => {
     // Перенаправление по двойному клику на иконку
     document.querySelectorAll('.folder-icon').forEach(icon => {
@@ -99,6 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('create-category-btn').addEventListener('click', function(event) {
         event.preventDefault();
+        const isAuth = this.dataset.auth === 'true'; // если используете data-атрибут
+
+    if (!isAuth) {
+        // Перенаправление на страницу логина, используйте URL из Django URL-имени
+        window.location.href = "{% url 'users:login' %}";
+        return;
+    }
         fetch('/add_folder/', {
         method: 'POST',
         headers: {

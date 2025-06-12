@@ -41,9 +41,36 @@
                 </div>
             </div>
             <div class="account-all">
-                <a href="#" class="leave-header">Выйти</a>
-                <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
-            </div>
+
+    {% if user.is_authenticated %}
+        <span class="user-logout">
+            {{ user.username }} | 
+            <a href="#" id="logout-link">Выйти</a>
+        </span>
+
+        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
+            {% csrf_token %}
+        </form>
+
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+    {% else %}
+        <a href="{% url 'users:login' %}" class="login-link">Войти</a>
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account with-margin">
+    {% endif %}
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('logout-form').submit();
+            });
+        }
+    });
+</script>
 
         </div>
     </header>
