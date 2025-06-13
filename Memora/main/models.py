@@ -6,21 +6,21 @@ from django.contrib.auth.models import User
 
 class ApplicantProfile(models.Model):
     name = models.CharField(max_length = 50)
-    dob = models.DateField(null=True, blank=True)
+    confirmation_code = models.CharField(max_length=4, blank=True)
     email = models.EmailField()
-    description = models.TextField(null=True, blank=True)
-    # maybe a OneToOneField
+    is_active=models.BooleanField(default=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    code_created_at = models.DateTimeField(null=True, blank=True)
 
-    
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True, blank=True, default='Noname')
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, blank=True)
-    owner = models.ForeignKey(ApplicantProfile, on_delete=models.CASCADE,)
+    name = models.CharField(max_length=100, blank=True, default='Noname')  # убрал unique=True
+    slug = models.SlugField(max_length=255, blank=True, db_index=True)
+    owner = models.ForeignKey(ApplicantProfile, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+        unique_together = ('slug', 'owner')  # слаг уникален в рамках владельца
 
     def __str__(self):
         return self.name
@@ -29,8 +29,16 @@ class Category(models.Model):
         if not self.name:
             self.name = 'Noname'
         if not self.slug:
-            self.slug = slugify(self.name)
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            # Проверяем уникальность слага в рамках одного владельца
+            while Category.objects.filter(slug=slug, owner=self.owner).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
+
 
 
 class Note(models.Model):

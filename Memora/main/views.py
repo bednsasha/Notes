@@ -23,53 +23,71 @@ def page_not_found(request,exception):
     return render(request, '404.html', status=404)
 
 @login_required(login_url='/users/login/')
-def add_note (request):
+def add_note(request):
     profile = ApplicantProfile.objects.get(user=request.user)
 
-    if request.method=='POST':
-            form = noteForm(request.POST)
-            
-            if form.is_valid():
-                try:
-                    title = form.cleaned_data['title']
-                    
-                    new_category_name = form.cleaned_data.get('new_category_name')
-                    if new_category_name!='Noname':
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=profile)
-                        print(category, new_category_name)
-                    else:
-                        category_id = request.POST.get('category')
-                        category = Category.objects.get(id=category_id, owner=profile)
+    if request.method == 'POST':
+        form = noteForm(request.POST, owner=profile)
 
-                        print('*', category)
-                    note = Note.objects.create(
-                    title=title,
-                    slug = slugify(title),
+        if form.is_valid():
+            try:
+                title = form.cleaned_data['title']
+                new_category_name = form.cleaned_data.get('new_category_name')
+
+                if new_category_name != 'Noname' and new_category_name.strip():
+                    category, created = Category.objects.get_or_create(
+                        name=new_category_name,
+                        slug=slugify(new_category_name),
+                        owner=profile
+                    )
+                else:
+                    category_id = request.POST.get('category')
+                    category = Category.objects.get(id=category_id, owner=profile)
+
+                note = Note.objects.create(
+                    title=title if title else 'Noname',
+                    slug=slugify(title) if title else slugify('Noname'),
                     content=form.cleaned_data.get('content'),
-                    category_id=category.pk,
+                    category=category,
                     owner=profile
-                    ) 
-                
-                    return redirect('edit_note', slug=note.slug)
-               
-                    
-                    
-                except Exception as e:
-                    form.add_error(None, 'Ошибка: ' + str(e))
-                    print(slugify(form.cleaned_data['title']))
-                    
-                
+                )
+                return redirect('edit_note', slug=note.slug)
+            except Exception as e:
+                form.add_error(None, 'Ошибка: ' + str(e))
     else:
-        form = noteForm()
-   
-    categories = Category.objects.filter(owner=profile)  # Получаем все категории
+        form = noteForm(owner=profile)
+
+    categories = Category.objects.filter(owner=profile)
     data = {
         'form': form,
-        'categories': categories, # Передаем категории в контекст
+        'categories': categories,
         'menu': menu,
     }
-    
-    return render(request, 'note.html', data)
+    return render(request, 'stylenote.html', data)
+
+@login_required(login_url='/users/login/')
+def edit_note(request,slug):
+    note= Note.objects.get(slug=slug)
+    profile = ApplicantProfile.objects.get(user=request.user)
+    form = noteForm(instance=note)
+    create=note.created_at 
+    modify=note.modified_at
+    if request.method == 'POST':
+            form = noteForm(request.POST, instance=note)
+            if form.is_valid():
+                new_category_name = form.cleaned_data.get('new_category_name')
+                if note.slug!=slugify((form.cleaned_data['title'])):
+                    note.slug =slugify((form.cleaned_data['title']))
+                    note.title = form.cleaned_data['title']  
+                    note.save() 
+                    return redirect('edit_note', slug=note.slug)
+                if new_category_name:
+                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=profile) 
+                form.save()
+    categories = Category.objects.filter(owner=profile)
+    context = {'form':form, 'create':create,'modify':modify, 'categories': categories, 'menu':menu  }
+    return render(request, 'stylenote.html', context)
+
 
 @login_required(login_url='/users/login/')
 def edit_note(request,slug):
@@ -97,7 +115,7 @@ def edit_note(request,slug):
                 form.save()
     categories = Category.objects.filter(owner=profile)
     context = {'form':form, 'create':create,'modify':modify, 'categories': categories, 'menu':menu  }
-    return render(request, 'note.html', context)
+    return render(request, 'stylenote.html', context)
 
 def categories(request):
     if not request.user.is_authenticated:
@@ -206,14 +224,23 @@ def add_folder(request):
         name = request.POST.get('name', 'Noname').strip()
         if not name:
             name = 'Noname'
-        slug = slugify(name)
-        
-        # Проверяем уникальность slug
-        profile = ApplicantProfile.objects.get(user=request.user)
-        if Category.objects.filter(slug=slug, owner=profile).exists():
-            return JsonResponse({'error': 'Категория с таким именем уже существует'}, status=400)
+        try:
+            profile = ApplicantProfile.objects.get(user=request.user)
+        except ApplicantProfile.DoesNotExist:
+            return JsonResponse({'error': 'Профиль пользователя не найден'}, status=400)
+
+        base_slug = slugify(name)
+        slug = base_slug
+        counter = 1
+        # Избегаем конфликта slug в рамках одного владельца
+        while Category.objects.filter(slug=slug, owner=profile).exists():
+            slug = f"{base_slug}-{counter}"
+            counter += 1
 
         category = Category.objects.create(name=name, slug=slug, owner=profile)
         return JsonResponse({'message': 'Категория создана', 'id': category.id, 'name': category.name})
     else:
         return JsonResponse({'error': 'Неверный метод'}, status=405)
+    
+
+        

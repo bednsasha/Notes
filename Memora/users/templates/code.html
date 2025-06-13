@@ -28,42 +28,43 @@
         </div>
 
         <section class="form2">
-            <a href="{% url 'registration' %}" class="arrow-link">
-                <img src="{% static 'img/arrow_left.svg' %}" alt="arrow_left" class="arrow-icon">
+            <a href="{% url 'users:registration' %}" class="arrow-link">
+                <img src="{% static 'arrow-left.svg' %}" alt="arrow-left" class="arrow-icon">
             </a>
 
             <div class="code-text-top">
                 <div class="text-cod">Код подтверждения</div>
                 <div class="text-cod-2">Код подтверждения отправлен на указанную почту почту</div>
             </div>
-            <form>
-                <div class="code">
-                    <div class="container">
-                        <div class="row tight-grid justify-content-center">
-                            <div class="col-md-3">
-                                <input type="text" name="n1" class="form-control-code">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" name="n2" class="form-control-code">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" name="n3" class="form-control-code">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" name="n4" class="form-control-code">
-                            </div>
-                        </div>
-                    </div>
+            <form method="post">
+    {% csrf_token %}
+    <div class="code">
+        <div class="container">
+            <div class="row tight-grid justify-content-center">
+                <div class="col-md-3">
+                    <input type="text" name="n1" maxlength="1" class="form-control-code" required pattern="[0-9]">
                 </div>
+                <div class="col-md-3">
+                    <input type="text" name="n2" maxlength="1" class="form-control-code" required pattern="[0-9]">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="n3" maxlength="1" class="form-control-code" required pattern="[0-9]">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="n4" maxlength="1" class="form-control-code" required pattern="[0-9]">
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="timer-container">
-                    <span class="timer" id="timer">01:30</span>
-                    <a class="resend-link" id="resend">Отправить код повторно</a>
-                </div>
-                <div class="button-send">
-                    <button type="submit" class="btn btn-primary">Отправить</button>
-                </div>
-            </form>
+    <div class="timer-container">
+        <span class="timer" id="timer">01:30</span>
+        <a class="resend-link" id="resend">Отправить код повторно</a>
+    </div>
+    <div class="button-send">
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </div>
+</form>
 
 
     </div>
@@ -92,14 +93,28 @@
 
         const timerInterval = setInterval(updateTimer, 1000);
 
-        resendLink.addEventListener('click', function () {
-            alert('Код отправлен повторно!');
-
-            timeLeft = 60;
-            timerElement.style.display = 'inline';
-            resendLink.style.display = 'none';
-            timerInterval = setInterval(updateTimer, 1000);
-        });
+        document.getElementById('resend').addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch(window.location.href + 'resend/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Новый код отправлен на почту');
+            // Можно сбросить таймер здесь
+            document.getElementById('timer').textContent = '01:30';
+        } else {
+            alert('Ошибка при отправке кода');
+        }
+    })
+    .catch(() => alert('Ошибка при отправке запроса'));
+});
 
         updateTimer();
     </script>

@@ -2,6 +2,9 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 
+from django.contrib.auth import get_user_model
+
+
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(
         label='Адрес электронной почты',
@@ -44,4 +47,31 @@ class RegisterUserForm(forms.ModelForm):
             raise forms.ValidationError('Такой email уже существует')
         return email
             
-    
+User = get_user_model()
+
+class PasswordChangeForm(forms.Form):
+    email = forms.CharField(
+        
+        widget=forms.TextInput(attrs={'class': 'form-control','aria-describedby': 'emailHelp'}))
+    password = forms.CharField(
+        
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    password2 = forms.CharField(
+        
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Пользователь с таким email не найден.')
+        return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+        
+        if password and password2 and password != password2:
+            raise forms.ValidationError('Пароли не совпадают.')
+        return cleaned_data

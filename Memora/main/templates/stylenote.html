@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora</title>
+    <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+
+</head>
+
+<body style="background-color: #111827;">
+    <header>
+        <div class="heder-all">
+            <img src="{% static 'img/logo_header.svg' %}" alt="Logo_header" class="logo_header">
+            <div class="container">
+                <div class="button-all">
+                    {% for m in menu %}
+                    <a href="{% url m.url_name %}">
+                        <button class="my-btn">{{ m.title }}</button>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="account-all">
+
+    {% if user.is_authenticated %}
+        <span class="user-logout">
+            {{ user.username }} 
+            <a href="#" id="logout-link">Выйти</a>
+        </span>
+
+        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
+            {% csrf_token %}
+        </form>
+
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+    {% else %}
+        <a href="{% url 'users:login' %}" class="login-link">Войти</a>
+        <img src="{% static 'img/akk.svg' %}" alt="account" class="account with-margin">
+    {% endif %}
+
+</div>
+
+        </div>
+    </header>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var logoutLink = document.getElementById('logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('logout-form').submit();
+            });
+        }
+    });
+</script>
+    <div class="note">
+        <form method="POST" action="">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+       {{form.title}}
+        <div class="container d-flex flex-column align-items-center">
+            <div class="row g-5 justify-content-center w-100">
+                <div class="col-md-4 d-flex justify-content-center">
+                    <div class="form-check">
+                        {{form.favourites}}
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Избранное
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 d-flex justify-content-center">
+                    {{form.category}}
+                </div>
+
+                <div class="col-md-4 d-flex justify-content-center">
+                    {{form.new_category_name}}
+                </div>
+            </div>
+
+
+        </div>
+        {{form.content}}
+        <button class="new-note">Сохранить</button>
+    </div>
+
+
+</body>
+
+</html>
