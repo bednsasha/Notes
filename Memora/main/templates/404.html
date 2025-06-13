@@ -2,20 +2,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Страница не найдена - 404</title>
     <style>
-        
         body {
             margin: 0;
             padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             background-image: url("{% static 'img/background.svg' %}");
-            height: 100vh;
-           
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: black;
             text-align: center;
         }
@@ -35,40 +36,16 @@
         }
 
         a:hover {
-            color: blue; 
+            color: blue;
         }
-        
-div.background {
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-}
-
-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  min-width: 50%;
-  min-height: 50%;
-}
     </style>
 </head>
 <body>
     <div>
-        <div class="background">
-        <img src="{% static 'img/background.svg' %}" />
-        </div>
         <h1>404</h1>
         <p>Страница не найдена</p>
         <p><a href="/">Вернуться на главную</a></p>
-        
     </div>
-    
 </body>
 </html>
 

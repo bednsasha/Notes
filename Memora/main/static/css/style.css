@@ -652,3 +652,9 @@ button.plus:hover {
 .new-note:active{
     background: #ccc;
 }
+
+.login-link {
+    margin-right: 8px; /* Расстояние между "Войти" и иконкой */
+    font-size: 16px; /* Подберите подходящий размер шрифта */
+}
+

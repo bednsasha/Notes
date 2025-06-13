@@ -49,6 +49,7 @@ def add_note(request):
                     slug=slugify(title) if title else slugify('Noname'),
                     content=form.cleaned_data.get('content'),
                     category=category,
+                    favourites=form.cleaned_data.get('favourites'),
                     owner=profile
                 )
                 return redirect('edit_note', slug=note.slug)
@@ -65,57 +66,57 @@ def add_note(request):
     }
     return render(request, 'stylenote.html', data)
 
-@login_required(login_url='/users/login/')
-def edit_note(request,slug):
-    note= Note.objects.get(slug=slug)
-    profile = ApplicantProfile.objects.get(user=request.user)
-    form = noteForm(instance=note)
-    create=note.created_at 
-    modify=note.modified_at
-    if request.method == 'POST':
-            form = noteForm(request.POST, instance=note)
-            if form.is_valid():
-                new_category_name = form.cleaned_data.get('new_category_name')
-                if note.slug!=slugify((form.cleaned_data['title'])):
-                    note.slug =slugify((form.cleaned_data['title']))
-                    note.title = form.cleaned_data['title']  
-                    note.save() 
-                    return redirect('edit_note', slug=note.slug)
-                if new_category_name:
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=profile) 
-                form.save()
-    categories = Category.objects.filter(owner=profile)
-    context = {'form':form, 'create':create,'modify':modify, 'categories': categories, 'menu':menu  }
-    return render(request, 'stylenote.html', context)
+
 
 
 @login_required(login_url='/users/login/')
-def edit_note(request,slug):
-    note= Note.objects.get(slug=slug)
+
+def edit_note(request, slug):
+    note = Note.objects.get(slug=slug)
     profile = ApplicantProfile.objects.get(user=request.user)
-    form = noteForm(instance=note)
-    create=note.created_at 
-    modify=note.modified_at
-   
-    
+
     if request.method == 'POST':
-            form = noteForm(request.POST, instance=note)
-            if form.is_valid():
-                new_category_name = form.cleaned_data.get('new_category_name')
-                if note.slug!=slugify((form.cleaned_data['title'])):
-                    note.slug =slugify((form.cleaned_data['title']))
-                    note.title = form.cleaned_data['title']  
-                    note.save() 
-                    return redirect('edit_note', slug=note.slug)
-                    
-                if new_category_name:
-                        category, created = Category.objects.get_or_create(name=new_category_name, slug=slugify(new_category_name), owner=profile) 
-                        
-                     
-                form.save()
+        form = noteForm(request.POST, instance=note, owner=profile)
+        if form.is_valid():
+            new_category_name = form.cleaned_data.get('new_category_name')
+
+            if new_category_name:
+                # Создаём новую категорию или получаем существующую с учётом владельца
+                category, created = Category.objects.get_or_create(
+                    owner=profile,
+                    slug=slugify(new_category_name),
+                    defaults={'name': new_category_name}
+                )
+                form.instance.category = category
+                note.category=category
+                note.save()
+            else:
+                # Обновляем категорию из формы (выбранную из существующих)
+                form.instance.category = form.cleaned_data['category']
+                note.category=form.cleaned_data['category']
+                note.save()
+
+            # Обновляем slug, если поменялся заголовок
+            new_slug = slugify(form.cleaned_data['title']) or 'noname'
+            if note.slug != new_slug:
+                form.instance.slug = new_slug
+
+            # Сохраняем все изменения через форму
+            form.save()
+
+            # Если slug поменялся — делаем redirect с новым slug
+            if note.slug != new_slug:
+                return redirect('edit_note', slug=new_slug)
+
+    else:
+        form = noteForm(instance=note, owner=profile)
+
     categories = Category.objects.filter(owner=profile)
-    context = {'form':form, 'create':create,'modify':modify, 'categories': categories, 'menu':menu  }
+
+    context = {'form': form, 'categories': categories, 'menu': menu}
     return render(request, 'stylenote.html', context)
+
+
 
 def categories(request):
     if not request.user.is_authenticated:

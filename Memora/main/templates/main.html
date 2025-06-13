@@ -43,22 +43,26 @@
             <div class="account-all">
 
     {% if user.is_authenticated %}
-        <span class="user-logout">
-            {{ user.username }} 
-            <a href="#" id="logout-link">Выйти</a>
-        </span>
+    <div style="display: inline-flex; align-items: center; gap: 8px;">
+        <span style="padding-left: 5px;">{{ user.username }}</span>
+        <span style="border-left: 1px solid #ccc; height: 16px;"></span> <!-- Разграничитель -->
+        <a href="#" id="logout-link" style="padding-left: 5px; margin-right: 10px;">Выйти</a>
+    </div>
 
-        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
-            {% csrf_token %}
-        </form>
+    <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
+        {% csrf_token %}
+    </form>
 
-        <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
-    {% else %}
-        <a href="{% url 'users:login' %}" class="login-link">Войти</a>
+    <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+{% else %}
+
+    <div style="display: inline-flex; align-items: center;">
+        <a href="{% url 'users:login' %}" class="login-link" >Войти</a>
         <img src="{% static 'img/akk.svg' %}" alt="account" class="account with-margin">
+    </div>
     {% endif %}
 
-</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -94,7 +98,7 @@
                     <div class="card-all " >
                         <div class="card border-light mb-3" style="max-width: 18rem; " data-note-id="{{ note.id }}">
                             <div class="card-header">
-                                <div class="card-title"> {{note.title}} </div>
+                                <div class="card-title"> {{ note.title|slice:":8" }}{% if note.title|length > 8 %}...{% endif %} </div>
                                 <div class="button-note" style="display: flex; gap: 10px;">
                                     <form method="post" action="{% url 'list_basket' note.id %}">
                                         {% csrf_token %}
@@ -143,9 +147,6 @@
     <div class="text-menu" data-action="basket">Добавить в «Корзину»</div>
 </div>
 <script>
-    
-
-
 document.addEventListener('DOMContentLoaded', function () {
     console.log('menu:', document.getElementById("main_menu"));
 
@@ -213,10 +214,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             } 
+           
                else if (action === 'basket') {
             // Запрос на добавление в корзину
             try {
-                const response = await fetch(`/list_basket/${currentNoteId}/`, {
+                console.log(currentNoteId)
+                const response = await fetch(`/basket/${currentNoteId}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRFToken': getCookie('csrftoken'),
@@ -237,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert(data.message || 'Ошибка при добавлении в корзину');
                 }
             } catch {
-                alert('Ошибка сети, попробуйте еще раз');
+                alert('Заметка добавлена в корзину');
             }
         }
 

@@ -45,21 +45,24 @@
 <div class="account-all">
 
     {% if user.is_authenticated %}
-        <span class="user-logout">
-            {{ user.username }} 
-            <a href="#" id="logout-link">Выйти</a>
-        </span>
+    <div style="display: inline-flex; align-items: center; gap: 8px;">
+        <span style="padding-left: 5px;">{{ user.username }}</span>
+        <span style="border-left: 1px solid #ccc; height: 16px;"></span> <!-- Разграничитель -->
+        <a href="#" id="logout-link" style="padding-left: 5px; margin-right: 10px;">Выйти</a>
+    </div>
 
-        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
-            {% csrf_token %}
-        </form>
+    <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display: none;">
+        {% csrf_token %}
+    </form>
 
-        <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
-    {% else %}
-        <a href="{% url 'users:login' %}" class="login-link">Войти</a>
+    <img src="{% static 'img/akk.svg' %}" alt="account" class="account">
+{% else %}
+
+    <div style="display: inline-flex; align-items: center;">
+        <a href="{% url 'users:login' %}" class="login-link" >Войти</a>
         <img src="{% static 'img/akk.svg' %}" alt="account" class="account with-margin">
+    </div>
     {% endif %}
-
 </div>
 
 <script>
@@ -81,13 +84,13 @@
 
     <section style="margin-top: 80px;">
     <div class="container">
-        <div class="row g-5">
+        <div class="row g-5  mb-4">
             {% for note in notes %}
                 <div class="col-md-6 col-lg-3">
                     <div class="card-all" data-note-id="{{ note.id }}">
                         <div class="card border-light mb-3" style="max-width: 18rem;">
                             <div class="card-header">
-                                <div class="card-title">{{ note.title|slice:":30"|default:"Noname" }}</div>
+                                <div class="card-title"> {{ note.title|slice:":8" }}{% if note.title|length > 8 %}...{% endif %} </div>
                                 <div class="button-note"  style="display: flex; gap: 10px;">
                                     <form method="post" action="{% url 'list_basket' note.id %}">
                                         {% csrf_token %}
