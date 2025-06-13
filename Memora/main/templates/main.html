@@ -148,14 +148,9 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('menu:', document.getElementById("main_menu"));
-
     const menu = document.getElementById("main_menu");
     const cards = document.querySelectorAll(".card");
-
     let currentNoteId = null;
-    
-
     cards.forEach(card => {
         card.addEventListener('contextmenu', (e) => {
             e.preventDefault();

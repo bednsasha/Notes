@@ -142,5 +142,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'bednsasha@gmail.com'       
-EMAIL_HOST_PASSWORD = 'qskr iayy qpcw tglp'    
+EMAIL_HOST_USER = 'memora.notes@gmail.com'       
+EMAIL_HOST_PASSWORD = 'xgrh mtyu bame sjbd'    

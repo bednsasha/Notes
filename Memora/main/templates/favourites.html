@@ -8,7 +8,7 @@
     <link href="{% static 'Bootstrap/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'font/Manrope/stylesheet.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/VE6j5r6wUew655+CL1zeR89tS/Eg4EGxQqvP2K" crossorigin="anonymous"></script>
+    
 
 
     <script src="{% static 'Bootstrap/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
@@ -88,7 +88,7 @@
             {% for note in notes %}
                 <div class="col-md-6 col-lg-3">
                     <div class="card-all" data-note-id="{{ note.id }}">
-                        <div class="card border-light mb-3" style="max-width: 18rem;">
+                        <div class="card border-light mb-3" style="max-width: 18rem;"  data-note-id="{{ note.id }}">
                             <div class="card-header">
                                 <div class="card-title"> {{ note.title|slice:":8" }}{% if note.title|length > 8 %}...{% endif %} </div>
                                 <div class="button-note"  style="display: flex; gap: 10px;">
@@ -131,75 +131,157 @@
 
 
                 
-                <div id="main_menu">
-                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Избранное»</div>
-                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в «Корзину»</div>
-                    <div onClick="jump(this);" url="#" class="text-menu">Добавить в папку</div>
-                </div>
+                  <div id="main_menu" style="display: none; position: absolute;">
+    <div class="text-menu" data-action="fav">Добавить в «Избранное»</div>
+    <div class="text-menu" data-action="basket">Добавить в «Корзину»</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menu = document.getElementById("main_menu");
+    const cards = document.querySelectorAll(".card");
+    let currentNoteId = null;
+    cards.forEach(card => {
+        card.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            console.log('Открытие меню для note ID:', card.getAttribute('data-note-id'));
+    
+            currentNoteId = card.getAttribute('data-note-id');
 
-                <script>
+            let posX = e.pageX;
+            let posY = e.pageY;
 
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const menu = document.getElementById("main_menu");
-                        const cards = document.querySelectorAll(".card");
+            const menuWidth = menu.offsetWidth;
+            const menuHeight = menu.offsetHeight;
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
 
-                        function showMenu(e) {
-                            e.preventDefault();
-                            menu.style.left = e.clientX + 'px';
-                            menu.style.top = e.clientY + 'px';
-                            menu.style.display = 'block';
-                        }
+            if (posX + menuWidth > windowWidth) posX -= menuWidth;
+            if (posY + menuHeight > windowHeight) posY -= menuHeight;
 
-                        function hideMenu() {
-                            menu.style.display = 'none';
-                        }
+            menu.style.left = posX + 'px';
+            menu.style.top = posY + 'px';
+            menu.style.display = 'block';
+        });
+    });
+
+    menu.addEventListener('click', async (e) => {
+        if (e.target.classList.contains('text-menu')) {
+            const action = e.target.getAttribute('data-action');
+            if (!currentNoteId) return;
+
+            if (action === 'fav') {
+                fetch(`/favourites/${currentNoteId}`, {
+    method: 'POST',
+    headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Content-Type': 'application/json'
+    }
+}).then(response => response.json())
+  .then(data => {
+    console.log('Ответ от сервера', data);
+    alert(data.favourites ? 'Заметка добавлена в избранное' : 'Заметка удалена из избранного');
+    
+    // Найти нужную иконку в карточке и обновить:
+    const card = document.querySelector(`.card[data-note-id="${currentNoteId}"]`);
+    
+    if (card) {
+        const img = card.querySelector('img.star'); // добавьте соответствующий класс к <img>
+        if (img) {
+            img.src = data.favourites ? '/static/img/star-fill.svg' : '/static/img/star1.svg';
+        }
+    }
+    location.reload();
 
 
-                        cards.forEach(card => {
-                            card.addEventListener('contextmenu', showMenu);
-                        });
-
-                        document.addEventListener('click', hideMenu);
+    
+});
 
 
-                        function jump(element) {
-                            const url = element.getAttribute('url');
-                            if (url) {
-                                window.location.href = url;
-                            }
-                        }
-                    });
-
-                    function confirmDelete() {
-                        if (confirm("Вы действительно хотите удалить эту запись?")) {
-
-                            console.log("Запись удалена");
-
-                        } else {
-                            console.log("Удаление отменено");
-                        }
+            } 
+           
+               else if (action === 'basket') {
+            // Запрос на добавление в корзину
+            try {
+                console.log(currentNoteId)
+                const response = await fetch(`/basket/${currentNoteId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
+                });
 
-                    document.querySelectorAll('.star').forEach(starButton => {
-                        const starIcon = starButton.querySelector('img');
-                        let isActive = false;
-                        
-                        starButton.addEventListener('click', function () {
-                            if (isActive) {
-                                <!-- делаем неактивной -->
-                                starIcon.src = "{% static 'img/star1.svg' %}";
-                                starIcon.alt = "star1";
-                                
-                            } else {
-                                <!-- делаем активной -->
-                                starIcon.src = "{% static 'img/star-fill.svg' %}";
-                                starIcon.alt = "star2";
-                                
-                            }
-                            isActive = !isActive;
-                        });
-                    });
-                </script>
+                const data = await response.json(); // Предполагаем, что ответ json
+
+                if (data.success) {
+                    alert('Заметка добавлена в корзину');
+                    const card = document.querySelector(`.card[data-note-id="${currentNoteId}"]`);
+                    if (card) {
+                        card.remove(); // Удаляем заметку с экрана
+                    }
+                } else {
+                    alert(data.message || 'Ошибка при добавлении в корзину');
+                }
+            } catch {
+                alert('Заметка добавлена в корзину');
+            }
+        }
+
+        menu.style.display = 'none';
+    }
+});
+
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target)) {
+            menu.style.display = 'none';
+        }
+    });
+    document.querySelectorAll('.fav-form .star').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const form = this.closest('form');
+        const url = form.getAttribute('action');
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновляем текущую страницу для отражения изменений
+                location.reload();
+            } else {
+                alert(data.message || 'Ошибка при добавлении в избранное');
+            }
+        })
+        .catch(() => alert('Ошибка сети, попробуйте еще раз'));
+    });
+});
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+
 
 
             </div>
