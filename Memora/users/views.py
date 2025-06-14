@@ -18,18 +18,11 @@ import random
 
 def generate_confirmation_code():
     return str(random.randint(1000, 9999))
-
-
-# Create your views here.
-
 class LoginUser(LoginView):
     form_class=LoginUserForm
     template_name='authorization.html'
-    
-    
     def get_success_url(self):
         return reverse_lazy('home')
-
 def registration(request):
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)
@@ -92,7 +85,7 @@ def code(request, email):
         else:
             error = 'Пожалуйста, введите корректный код из 4 цифр.'
 
-    else:  # GET-запрос — отправляем письмо с кодом
+    else: 
         subject = 'Код подтверждения регистрации'
         message = f'Ваш код подтверждения: {profile.confirmation_code}'
         from_email = settings.EMAIL_HOST_USER
@@ -101,7 +94,7 @@ def code(request, email):
 
 
     return render(request, 'code.html', {'email': email, 'error': error})
-# если не используете CSRF-токен в AJAX, лучше добавить токен или убрать csrf_exempt
+
 def resend_code(request, email):
     if request.method == 'POST':
         profile = get_object_or_404(ApplicantProfile, email=email)
@@ -143,7 +136,7 @@ def password_change(request):
             profile.code_created_at=timezone.now()
             profile.save()
             user.save()
-            return redirect('users:code', email=user.email)  # или любой другой url после смены пароля
+            return redirect('users:code', email=user.email)  
     else:
         form = PasswordChangeForm()
     return render(request, 'password_change.html', {'form': form})

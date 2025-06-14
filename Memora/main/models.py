@@ -13,7 +13,7 @@ class ApplicantProfile(models.Model):
     code_created_at = models.DateTimeField(null=True, blank=True)
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, blank=True, default='Noname')  # убрал unique=True
+    name = models.CharField(max_length=100, blank=True, default='Noname')  
     slug = models.SlugField(max_length=255, blank=True, db_index=True)
     owner = models.ForeignKey(ApplicantProfile, on_delete=models.CASCADE)
 
@@ -32,7 +32,6 @@ class Category(models.Model):
             base_slug = slugify(self.name)
             slug = base_slug
             counter = 1
-            # Проверяем уникальность слага в рамках одного владельца
             while Category.objects.filter(slug=slug, owner=self.owner).exclude(pk=self.pk).exists():
                 slug = f"{base_slug}-{counter}"
                 counter += 1
@@ -58,15 +57,12 @@ class Note(models.Model):
         blank=True,
         default=None
     )
-
     class Meta:
         verbose_name = "Заметка"
         verbose_name_plural = "Заметки"
         ordering = ('title',)
-
     def __str__(self):
         return self.title[0:50]
-
     def save(self, *args, **kwargs):
         if not self.title:
             self.title = 'Noname'
@@ -75,10 +71,9 @@ class Note(models.Model):
         if not self.category:
             default_category, created = Category.objects.get_or_create(
                 name='Noname',
-                owner=self.owner  # Важно передать owner, чтобы категория принадлежала тому же пользователю
+                owner=self.owner  
             )
             self.category = default_category
         super().save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse('post', kwargs={'post_slug': self.slug})

@@ -206,10 +206,9 @@ def list_basket(request, note_id):
         profile = ApplicantProfile.objects.get(user=request.user)
         note = get_object_or_404(Note, pk=note_id, owner=profile)
         note.in_basket = not note.in_basket  # Переключаем состояние
-        print(f"Note ID: {note.id}, in_basket: {note.in_basket}")  # Для отладки
+    
         note.save()
     return redirect(request.META.get('HTTP_REFERER', 'home'))
-    #return JsonResponse({"success": True}) 
 
 @login_required(login_url='/users/login/')
 def delete_note(request, note_id):

@@ -196,18 +196,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const card = document.querySelector(`.card[data-note-id="${currentNoteId}"]`);
     
     if (card) {
-        const img = card.querySelector('img.star'); // добавьте соответствующий класс к <img>
+        const img = card.querySelector('img.star'); 
         if (img) {
             img.src = data.favourites ? '/static/img/star-fill.svg' : '/static/img/star1.svg';
         }
     }
     location.reload();
-
-
-    
 });
-
-
             } 
            
                else if (action === 'basket') {
@@ -223,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
 
-                const data = await response.json(); // Предполагаем, что ответ json
+                const data = await response.json(); 
 
                 if (data.success) {
                     alert('Заметка добавлена в корзину');
@@ -267,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Обновляем текущую страницу для отражения изменений
+               
                 location.reload();
             } else {
                 alert(data.message || 'Ошибка при добавлении в избранное');
@@ -292,8 +287,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
-
-
 
             </div>
         </div>
